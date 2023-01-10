@@ -1,0 +1,20 @@
+token = "123456"
+
+[app]
+# hashStatecode
+rootURL = "http://localhost:9001"
+
+[server.http]
+port=9001
+embedPath = "dist"
+
+
+[storage]
+[storage.filesystem]
+basePath = "../../tmp/goprobe/pprof"
+tcpdumpPath = "../../tmp/tcpdump"
+
+[[cluster]]
+name = "shimo-dev"
+apiServer="https://192.168.220.215:6443"
+kubeConfig="../../config/shimo-dev.json"

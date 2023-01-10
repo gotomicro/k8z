@@ -1,0 +1,9 @@
+bin
+logs
+tmp
+.idea
+config/*.json
+dist
+database.db
+.DS_Store
+static-tcpdump

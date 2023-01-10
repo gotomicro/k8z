@@ -1,0 +1,127 @@
+name: publish-release
+
+on:
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v3
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: Get version
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_OUTPUT
+      - run: mkdir artifacts
+      - name: download static tcpdump
+        run: |
+          wget https://github.com/eldadru/ksniff/releases/download/v1.6.2/ksniff.zip
+          unzip -d ksniff ksniff.zip
+          cp ksniff/static-tcpdump artifacts/
+          rm -rf ksniff ksniff.zip
+      - name: edit package.json version
+        run: |
+          jq '.version="${{ steps.get_version.outputs.VERSION }}"' ui/package.json > artifacts/package.json
+      - name: upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifacts
+          path: artifacts
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+
+  build-mac:
+    runs-on: macos-latest
+    permissions: write-all
+    needs: release
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v3
+      - name: Get version
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_OUTPUT
+
+      - name: Install golang
+        uses: actions/setup-go@v3
+        with:
+          go-version: '^1.19'
+
+      - name: Install Node.js, NPM and Yarn
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: artifacts
+          path: artifacts
+      - run: |
+          mv artifacts/static-tcpdump ./
+          mv artifacts/package.json ui/package.json
+      - run: cd ui && yarn && yarn electron:build:pro --mac && ls build
+
+      - name: Upload Release Asset For dmg
+        uses: actions/upload-release-asset@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.release.outputs.upload_url }}
+          asset_path: ui/build/k8z-${{ steps.get_version.outputs.VERSION }}.dmg
+          asset_name: k8z-${{ steps.get_version.outputs.VERSION }}.dmg
+          asset_content_type: application/x-tg
+
+#  build-win:
+#    runs-on: windows-latest
+#    permissions: write-all
+#    needs: release
+#    steps:
+#      - name: Check out Git repository
+#        uses: actions/checkout@v3
+#      - name: Get version
+#        id: get_version
+#        run: echo "VERSION=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_OUTPUT
+#
+#      - name: Install golang
+#        uses: actions/setup-go@v3
+#        with:
+#          go-version: '^1.19'
+#
+#      - name: Install Node.js, NPM and Yarn
+#        uses: actions/setup-node@v3
+#        with:
+#          node-version: 16
+#      - name: download artifact
+#        uses: actions/download-artifact@v3
+#        with:
+#          name: artifacts
+#          path: artifacts
+#      - run: |
+#          mv artifacts/static-tcpdump ./
+#          rm ui/package.json
+#          mv artifacts/package.json ui/package.json
+#
+#      - run: cd ui && yarn && yarn electron:build:pro --mac && ls build
+#
+#      - name: Upload Release Asset For dmg
+#        uses: actions/upload-release-asset@master
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          upload_url: ${{ needs.release.outputs.upload_url }}
+#          asset_path: ui/build/k8z-${{ steps.get_version.outputs.VERSION }}.exe
+#          asset_name: k8z-${{ steps.get_version.outputs.VERSION }}.exe
+#          asset_content_type: application/x-tg
