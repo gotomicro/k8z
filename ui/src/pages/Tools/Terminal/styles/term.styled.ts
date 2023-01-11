@@ -9,13 +9,8 @@ export const StyledTerm = styled.div<{ isFullscreen: boolean }>`
   padding: ${({ isFullscreen }) => (isFullscreen ? '18px' : '8px')};
   background-color: rgb(250, 250, 250);
   border-radius: 8px;
-  .xterm-dom-renderer-owner-2.focus .xterm-selection div {
-    position: absolute;
-    background-color: #e3f2fd;
-  }
-
-  .xterm-dom-renderer-owner-2 .xterm-selection div {
-    position: absolute;
+  .xterm.focus .xterm-selection div,
+  .xterm .xterm-selection div {
     background-color: #e3f2fd;
   }
 `;

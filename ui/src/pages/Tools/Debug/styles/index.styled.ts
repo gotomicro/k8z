@@ -21,13 +21,9 @@ export const StyledDebugTerm = styled.div<{ isShow?: boolean }>`
   padding: 8px;
   border-radius: 8px;
   background-color: rgb(250, 250, 250);
-  .xterm-dom-renderer-owner-1.focus .xterm-selection div {
-    position: absolute;
-    background-color: #e3f2fd;
-  }
 
-  .xterm-dom-renderer-owner-1 .xterm-selection div {
-    position: absolute;
+  .xterm.focus .xterm-selection div,
+  .xterm .xterm-selection div {
     background-color: #e3f2fd;
   }
 `;
