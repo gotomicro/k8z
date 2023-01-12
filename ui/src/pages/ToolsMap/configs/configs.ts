@@ -17,6 +17,17 @@ export enum ToolNames {
   Nodes = 'Nodes',
 }
 
+export enum ToolPathNames {
+  Terminal = '/terminal',
+  Tcpdump = '/tcpdump',
+  Files = '/files',
+  Profiling = '/profiling-go',
+  PodProxy = '/pod-http-proxy',
+  PodDebug = '/debug',
+  ConfigMap = '/config-map',
+  Nodes = '/nodes',
+}
+
 export interface Tool {
   name: ToolNames;
   img: string;
@@ -75,11 +86,11 @@ export const ToolsMapArr: Tool[] = [
     pathname: '/config-map',
     iconType: 'icon-configmap',
   },
-  {
-    name: ToolNames.Nodes,
-    img: ConfigMapImg,
-    router: '#/nodes',
-    pathname: '/nodes',
-    iconType: 'icon-configmap',
-  },
+  // {
+  //   name: ToolNames.Nodes,
+  //   img: ConfigMapImg,
+  //   router: '#/nodes',
+  //   pathname: '/nodes',
+  //   iconType: 'icon-configmap',
+  // },
 ];

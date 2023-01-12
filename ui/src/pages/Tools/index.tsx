@@ -4,7 +4,7 @@ import PodSelectCard, {
   SHOW_CONFIGMAP_PATHNAME_ARR,
 } from '@/components/PodSelectCard';
 import React, { useEffect, useMemo } from 'react';
-import { ToolNames, ToolsMapArr } from '@/pages/ToolsMap/configs/configs';
+import { ToolPathNames, ToolsMapArr } from '@/pages/ToolsMap/configs/configs';
 import TerminalTool from '@/pages/Tools/Terminal';
 import Tcpdump from '@/pages/Tools/Tcpdump';
 import { k8zStorageKeys, localStorageManage } from '@/utils/storageUtil';
@@ -27,17 +27,12 @@ const Tools: React.FC = () => {
     configmap: model.currentConfigmap,
   }));
   const { handleClickTool } = useTools();
-  const isConfigMap = useMemo(
-    () => SHOW_CONFIGMAP_PATHNAME_ARR.includes(currentLocation?.pathname),
-    [currentLocation],
-  );
-
-  const isHidePodOrConfigmap = useMemo(
-    () => HIDE_POD_OR_CONFIGMAP_SELECT_ARR.includes(currentLocation?.pathname),
-    [currentLocation],
-  );
 
   const ToolCard = useMemo(() => {
+    const isConfigMap = SHOW_CONFIGMAP_PATHNAME_ARR.includes(currentLocation?.pathname);
+    const isHidePodOrConfigmap = HIDE_POD_OR_CONFIGMAP_SELECT_ARR.includes(
+      currentLocation?.pathname,
+    );
     const tool = ToolsMapArr.find((item) => currentLocation.pathname === item.pathname);
     if (!tool?.name) {
       return null;
@@ -54,53 +49,34 @@ const Tools: React.FC = () => {
 
     // 进入只选 cluster 和 namespace分支
     if (isHidePodOrConfigmap && cluster && namespace) {
-      switch (tool?.name) {
-        case ToolNames.Nodes:
-          return <Nodes cluster={cluster} namespace={namespace} />;
-        default:
-          break;
-      }
-    }
-    // 如果是 configmap 则进入 configmap 分支
-    if (!isHidePodOrConfigmap && isConfigMap && configmap) {
-      switch (tool?.name) {
-        case ToolNames.ConfigMap:
-          return <ConfigMap configmap={configmap} />;
-        default:
-          break;
-      }
+      return <Nodes cluster={cluster} namespace={namespace} />;
     }
 
-    // 进入 pod 分支
-    if (!isHidePodOrConfigmap && !isConfigMap && currentPod) {
-      switch (tool?.name) {
-        case ToolNames.Terminal:
+    // 如果是 configmap 则进入 configmap 分支
+    if (isConfigMap && configmap) {
+      return <ConfigMap configmap={configmap} />;
+    }
+
+    if (currentPod)
+      switch (currentLocation.pathname) {
+        case ToolPathNames.Terminal:
           return <TerminalTool currentPod={currentPod} />;
-        case ToolNames.Tcpdump:
+        case ToolPathNames.Tcpdump:
           return <Tcpdump currentPod={currentPod} />;
-        case ToolNames.Profiling:
+        case ToolPathNames.Profiling:
           return <Profiling currentPod={currentPod} />;
-        case ToolNames.PodProxy:
+        case ToolPathNames.PodProxy:
           return <PodProxy currentPod={currentPod} />;
-        case ToolNames.Files:
+        case ToolPathNames.Files:
           return <Files currentPod={currentPod} />;
-        case ToolNames.PodDebug:
+        case ToolPathNames.PodDebug:
           return <Debug currentPod={currentPod} />;
         default:
           break;
       }
-    }
 
     return <ToolCardEmpty tip={emptyTip} />;
-  }, [
-    isHidePodOrConfigmap,
-    isConfigMap,
-    cluster,
-    namespace,
-    configmap,
-    currentPod,
-    currentLocation.pathname,
-  ]);
+  }, [cluster, namespace, configmap, currentPod, currentLocation.pathname]);
 
   useEffect(() => {
     const tool = ToolsMapArr.find((item) => currentLocation.pathname === item.pathname);
