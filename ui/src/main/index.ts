@@ -1,25 +1,17 @@
-import { app, BrowserWindow, dialog, ipcMain, Menu, protocol, shell } from 'electron';
+import { app, BrowserWindow, dialog, ipcMain, protocol } from 'electron';
 import * as path from 'path';
 import createProtocol from './createProtocol';
 import runServer, { port, serverProcess } from './server';
-import { fixPathUtil } from './fixPathUtil';
-import { initLog } from './loggerUtil';
+import { fixPathUtil } from './utils/fixPathUtil';
+import { initLog } from './utils/loggerUtil';
 import { pathExistsSync } from 'fs-extra';
+import { initWindowMenu } from './utils/menuUtil';
 
 initLog();
 fixPathUtil();
 let loading: BrowserWindow;
 let mainWindow: BrowserWindow;
 const isDevelopment = process.env.NODE_ENV === 'development';
-
-const ToolNames = [
-  'Terminal',
-  'Tcpdump',
-  'Profiling（GO）',
-  'POD HTTP Proxy',
-  'Debug',
-  'ConfigMap',
-];
 
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } },
@@ -123,84 +115,6 @@ async function downloadFile() {
   });
 }
 
-function initWindowMenu() {
-  const isMac = process.platform === 'darwin';
-  const template = [
-    ...(isMac
-      ? [
-          {
-            label: app.name,
-            submenu: [
-              { label: `关于 ${app.name}`, role: 'about' },
-              { type: 'separator' },
-              { label: `隐藏 ${app.name}`, role: 'hide' },
-              { label: '隐藏其他', role: 'hideOthers' },
-              { label: '显示全部', role: 'unhide' },
-              { type: 'separator' },
-              { label: `退出 ${app.name}`, role: 'quit' },
-            ],
-          },
-        ]
-      : []),
-    {
-      label: '集群',
-      submenu: [
-        {
-          label: '集群列表',
-          accelerator: 'CommandOrControl+Shift+I',
-          click: () => mainWindow.webContents.send('message', 'ClusterList'),
-        },
-        {
-          label: '新建集群',
-          click: () => mainWindow.webContents.send('message', 'AddCluster'),
-        },
-      ],
-    },
-    {
-      label: '工具集',
-      submenu: ToolNames.map((item) => ({
-        label: item,
-        click: () => mainWindow.webContents.send('message', item),
-      })),
-    },
-    {
-      label: '视图',
-      submenu: [
-        {
-          label: '返回工具集',
-          accelerator: 'CommandOrControl+B',
-          click: () => {
-            mainWindow.webContents.send('message', 'BackHome');
-          },
-        },
-        { label: '重新加载', role: 'reload' },
-        { label: '强制重新加载', role: 'forceReload' },
-        { label: '检查', role: 'toggleDevTools' },
-        { type: 'separator' },
-        { label: '进入全屏', role: 'togglefullscreen' },
-        { label: '实际大小', role: 'resetZoom' },
-        { label: '放大', role: 'zoomIn' },
-        { label: '缩小', role: 'zoomOut' },
-      ],
-    },
-    {
-      label: '帮助',
-      role: 'help',
-      submenu: [
-        {
-          label: '更多帮助',
-          click: async () => {
-            await shell.openExternal('https://electronjs.org');
-          },
-        },
-      ],
-    },
-  ];
-  // @ts-ignore
-  const menu = Menu.buildFromTemplate(template);
-  Menu.setApplicationMenu(menu);
-}
-
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1000,
@@ -211,7 +125,7 @@ function createWindow() {
       preload: path.join(__dirname, 'preload.js'),
     },
   });
-  initWindowMenu();
+  initWindowMenu(mainWindow);
   mainWindow.once('ready-to-show', () => {
     console.log('ready-to-show');
     loading.hide();
