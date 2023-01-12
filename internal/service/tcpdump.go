@@ -19,6 +19,7 @@ import (
 
 	"k8z/internal/model/dto"
 	"k8z/internal/service/kube"
+	"k8z/internal/util"
 	"k8z/pkg/storage"
 	"k8z/pkg/storage/filesystem"
 )
@@ -36,6 +37,20 @@ func initTCPDump() error {
 	}
 	TCPDump = &tcpDump{
 		storage: filesystem.NewFilesystemClient(basePath),
+	}
+	return nil
+}
+
+func (t tcpDump) CheckDependencies() error {
+	var des util.DepErrors
+	if _, err := exec.Command("wireshark", "-v").Output(); err != nil {
+		des = append(des, util.DepError{
+			Dependency: "wireshark",
+			Refer:      "https://www.wireshark.org/#download",
+		})
+	}
+	if len(des) > 0 {
+		return des
 	}
 	return nil
 }

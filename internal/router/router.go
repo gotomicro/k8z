@@ -57,6 +57,7 @@ func Server() *egin.Component {
 
 func routePProf(r gin.IRouter) {
 	v1 := r.Group(prefixAPIV1).Group("/pprof")
+	v1.GET("/check-dependencies", core.Handle(apiv1.PProfCheckDependencies))
 	v1.POST("/run", core.Handle(apiv1.PProfRun))
 	v1.GET("/profile-list", core.Handle(apiv1.PprofList))
 	v1.GET("/graph", core.Handle(apiv1.PProfGraph))
@@ -92,6 +93,7 @@ func routeFile(r gin.IRouter) {
 
 func routeTCPDump(r gin.IRouter) {
 	v1 := r.Group(prefixAPIV1).Group("/tcpdump")
+	v1.GET("/check-dependencies", core.Handle(apiv1.TCPDumpCheckDependencies))
 	v1.POST("/run", core.Handle(apiv1.TCPDumpRun))
 	v1.GET("/run", core.Handle(apiv1.TCPDumpRunWS))
 	v1.GET("/run/", core.Handle(apiv1.TCPDumpRunWS))

@@ -11,8 +11,17 @@ import (
 	"k8z/internal/invoker"
 	"k8z/internal/model/dto"
 	"k8z/internal/service"
+	"k8z/internal/util"
 	"k8z/pkg/component/core"
 )
+
+func TCPDumpCheckDependencies(c *core.Context) {
+	err := service.TCPDump.CheckDependencies()
+	var resp dto.CheckDependenciesResponse
+	des, ok := err.(util.DepErrors)
+	resp.DependencyErrors, resp.Success = des, !ok
+	c.JSONOK(resp)
+}
 
 func TCPDumpRun(c *core.Context) {
 	var params dto.ReqRunTCPDump

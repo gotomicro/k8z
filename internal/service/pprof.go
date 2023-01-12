@@ -29,6 +29,7 @@ import (
 
 	"k8z/internal/model/dto"
 	"k8z/internal/service/kube"
+	"k8z/internal/util"
 	"k8z/pkg/storage"
 	"k8z/pkg/storage/filesystem"
 )
@@ -51,10 +52,6 @@ func initPProf() error {
 	}
 	Pprof = &pprof{
 		storage: filesystem.NewFilesystemClient(basePath),
-	}
-	err = Pprof.checkEnv()
-	if err != nil {
-		return fmt.Errorf("init pprof check env failed: %w", err)
 	}
 	return nil
 }
@@ -288,30 +285,26 @@ func (p *pprof) GetPprofList(req dto.ReqGetPprofList) (list []dto.RespGetPprofLi
 	return
 }
 
-func (p *pprof) checkEnv() (err error) {
+func (p *pprof) CheckDependencies() (err error) {
+	var des util.DepErrors
 	// 1 check go version
 	if _, err = exec.Command("go", "version").Output(); err != nil {
-		return fmt.Errorf("there was an error running 'go version' command: %s", err)
+		des = append(des, util.DepError{
+			Dependency: "go",
+			Refer:      "https://go.dev/",
+		})
 	}
-
 	// 2 check dot -v, graphiz
 	if _, err = exec.Command("dot", "-v").Output(); err != nil {
-		return fmt.Errorf("there was an error running 'dot -v' command: %s", err)
+		des = append(des, util.DepError{
+			Dependency: "graphiz",
+			Refer:      "https://graphviz.org/",
+		})
 	}
-
-	// 3 check flamegraph.pl
-	flameGraphScripts := []string{"flamegraph", "flamegraph.pl", "./flamegraph.pl", "./FlameGraph/flamegraph.pl", "flame-graph-gen"}
-	var b bool
-	for _, v := range flameGraphScripts {
-		if _, err := exec.LookPath(v); err == nil {
-			b = true
-			break
-		}
+	if len(des) > 0 {
+		return des
 	}
-	if !b {
-		return errors.New("flameGraphScript not found")
-	}
-	return
+	return nil
 }
 
 func (p *pprof) generateGraphByAddr(reqRunProfile dto.ReqRunProfile, pprofResName string, params map[string]string) (err error) {
