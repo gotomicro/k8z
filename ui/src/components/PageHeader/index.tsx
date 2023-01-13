@@ -5,10 +5,12 @@ import {
   StyledPageHeaderTitle,
   StyledPageHeaderTitleContext,
 } from '@/components/PageHeader/styles/index.styled';
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { RollbackOutlined } from '@ant-design/icons';
 import { useTools } from '@/hooks/useTools';
 import { k8zStorageKeys, localStorageManage } from '@/utils/storageUtil';
+import { useLocation } from '@@/exports';
+import { ToolsMapArr } from '@/pages/ToolsMap/configs/configs';
 
 export interface PageHeaderProps {
   showBackHome?: boolean;
@@ -16,16 +18,26 @@ export interface PageHeaderProps {
 
 const PageHeader: React.FC<PageHeaderProps> = ({ showBackHome = true }) => {
   const { handleResetToolName } = useTools();
+  const currentLocation = useLocation();
   const handleGoBackHomePage = useCallback(() => {
     location.hash = '';
     handleResetToolName();
   }, [handleResetToolName]);
 
+  const isTools = useMemo(() => {
+    if (!localStorageManage(k8zStorageKeys.toolsName)) return false;
+    return (
+      currentLocation.pathname ===
+      ToolsMapArr.find((item) => localStorageManage(k8zStorageKeys.toolsName) === item.name)
+        ?.pathname
+    );
+  }, [currentLocation.pathname]);
+
   return (
     <StyledPageHeader>
       <StyledPageHeaderTitle>
         <StyledPageHeaderTitleContext onClick={handleGoBackHomePage}>
-          K8Z&nbsp;-&nbsp;{localStorageManage(k8zStorageKeys.toolsName) || '工具合集'}
+          K8Z&nbsp;-&nbsp;{isTools ? localStorageManage(k8zStorageKeys.toolsName) : '工具合集'}
         </StyledPageHeaderTitleContext>
       </StyledPageHeaderTitle>
       <StyledPageHeaderBack>

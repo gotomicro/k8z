@@ -7,7 +7,7 @@ import React, { useEffect, useMemo } from 'react';
 import { ToolPathNames, ToolsMapArr } from '@/pages/ToolsMap/configs/configs';
 import TerminalTool from '@/pages/Tools/Terminal';
 import Tcpdump from '@/pages/Tools/Tcpdump';
-import { k8zStorageKeys, localStorageManage } from '@/utils/storageUtil';
+import { k8zStorageKeys, localStorageManage, removeLocalStorageManage } from '@/utils/storageUtil';
 import { useTools } from '@/hooks/useTools';
 import ToolCardEmpty from '@/components/ToolCardEmpty';
 import PodProxy from '@/pages/Tools/PodProxy';
@@ -87,6 +87,10 @@ const Tools: React.FC = () => {
     if (tool && tool.router !== localStorageManage(k8zStorageKeys.toolsRouter)) {
       handleClickTool(tool.name, tool.router);
     }
+    return () => {
+      removeLocalStorageManage(k8zStorageKeys.toolsName);
+      removeLocalStorageManage(k8zStorageKeys.toolsRouter);
+    };
   }, [handleClickTool, currentLocation]);
 
   return (

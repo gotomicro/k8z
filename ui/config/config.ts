@@ -78,9 +78,38 @@ export default defineConfig({
           to: 'server/static-tcpdump',
         },
       ],
-      win: { icon: './public/icons' },
-      mac: { icon: './public/icons' },
+      win: { target: ['msi', 'nsis'], icon: './public/icons' },
+      mac: { target: ['dmg', 'zip'], icon: './public/icons' },
       linux: { icon: './public/icons' },
+      nsis: {
+        oneClick: false, //是否一键安装，默认为true
+        language: '2052', //安装语言，2052对应中文
+        perMachine: true, //为当前系统的所有用户安装该应用程序
+        allowToChangeInstallationDirectory: true, //允许用户选择安装目录
+      },
+      dmg: {
+        icon: './public/icons/icon.icns', //安装图标
+        iconSize: 100, //图标的尺寸
+        contents: [
+          //安装图标在安装窗口中的坐标信息
+          {
+            x: 380,
+            y: 180,
+            type: 'link',
+            path: '/Applications',
+          },
+          {
+            x: 130,
+            y: 180,
+            type: 'file',
+          },
+        ],
+        window: {
+          //安装窗口的大小
+          width: 540,
+          height: 380,
+        },
+      },
       directories: {
         output: 'build',
       },

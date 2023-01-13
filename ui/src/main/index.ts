@@ -28,10 +28,10 @@ const showLoading = (cb: () => Promise<void>) => {
   });
   loading.once('show', cb);
   if (isDevelopment) {
-    loading.loadURL('http://localhost:8000/#/init');
+    loading.loadURL('http://localhost:8000/#/init').catch(console.error);
   } else {
     createProtocol('app');
-    loading.loadURL('app://./index.html/#/init');
+    loading.loadURL('app://./index.html/#/init').catch(console.error);
   }
   loading.show();
 };
@@ -133,10 +133,10 @@ function createWindow() {
     mainWindow.show();
   });
   if (isDevelopment) {
-    mainWindow.loadURL('http://localhost:8000');
+    mainWindow.loadURL('http://localhost:8000').catch(console.error);
   } else {
     createProtocol('app');
-    mainWindow.loadURL('app://./index.html/');
+    mainWindow.loadURL('app://./index.html/').catch(console.error);
   }
   downloadFile().catch(console.error);
 }
