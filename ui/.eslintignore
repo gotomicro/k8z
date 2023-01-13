@@ -1,0 +1,12 @@
+/lambda/
+/scripts
+.history
+/config
+public
+dist
+.umi
+.umi-production
+.umi-test
+mock
+.eslintrc.js
+typings.d.ts

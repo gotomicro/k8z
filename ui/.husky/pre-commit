@@ -1,0 +1,5 @@
+#!/bin/sh
+echo 'pre-commit disabled'
+#. "$(dirname "$0")/_/husky.sh"
+#
+#npx --no-install lint-staged

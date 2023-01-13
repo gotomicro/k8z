@@ -1,0 +1,21 @@
+.initResult {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+}
+.iconRotation {
+  animation: 3s iconRotation linear infinite;
+}
+
+@keyframes iconRotation {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
+}
