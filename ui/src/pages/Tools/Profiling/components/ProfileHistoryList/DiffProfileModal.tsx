@@ -30,6 +30,9 @@ const DiffProfileModal: React.FC<DiffProfileModalProps> = ({
     if (open && baseProfile && formRef.current) {
       formRef.current.setFieldValue('baseUrl', baseProfile.url);
     }
+    if (!open) {
+      formRef.current?.resetFields();
+    }
   }, [open, baseProfile]);
   return (
     <Modal title="Profile 版本比对" open={open} onCancel={onCancel} onOk={handleOk}>

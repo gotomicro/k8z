@@ -80,7 +80,7 @@ const Profiling: React.FC<ProfilingProps> = ({ currentPod }) => {
           />
         </ContentCard>
       )}
-      <ContentCard title="Profile" height="92vh" id="profile">
+      <ContentCard title="Profile" height="92vh" id="Profile">
         {spinningProfile ? (
           <StyledEmptyOrSpin>
             <Spin spinning={spinningProfile} tip={'正在生成 Profile...'} />
