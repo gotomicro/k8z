@@ -11,3 +11,6 @@ K8Z 意在 k8s 业务层面，提供一个方便好用的 k8s 集群可视化工
 - Debug：复制一个 POD 并新建一个终端连接上去，方便针对 crash 的 POD 手动调试故障
 - ConfigMap：提供方便的编辑器来管理集群内的configMap
 - 更多工具开发中 ...
+
+# Demo
+![k8z-demo](https://user-images.githubusercontent.com/9847143/212584308-777becf0-5283-4a67-bb1f-b854080078d6.gif)
