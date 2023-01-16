@@ -4,6 +4,7 @@ import React from 'react';
 import './styles/index.less';
 
 const AppInit: React.FC = () => {
+  console.log('href', location.href);
   return (
     <Result
       className="initResult"

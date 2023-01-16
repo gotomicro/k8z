@@ -74,9 +74,7 @@ const ProfileViewSvg: React.FC<ProfileViewProps> = ({
   const SvgUrl = useCallback(
     (type?: GoTypes) => {
       if (baseUrl && targetUrl && !loadingDiff) {
-        return `${
-          location.origin
-        }${GET_PROFILE_DIFF_SVG_URL}?baseUrl=${baseUrl}&targetUrl=${targetUrl}&svgType=${svgType}&goType=${
+        return `${RequestBaseUrl}${GET_PROFILE_DIFF_SVG_URL}?baseUrl=${baseUrl}&targetUrl=${targetUrl}&svgType=${svgType}&goType=${
           type ?? goType
         }`;
       }

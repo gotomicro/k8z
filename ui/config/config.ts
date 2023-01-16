@@ -63,6 +63,8 @@ export default defineConfig({
   },
   electronBuilder: {
     buildType: 'vite',
+    // parallelBuild: true, // 并行构建
+    outputDir: 'build',
     builderOptions: {
       extraResources: [
         {
@@ -77,6 +79,8 @@ export default defineConfig({
           from: '../static-tcpdump',
           to: 'server/static-tcpdump',
         },
+        { from: './src/main/init/init.html', to: 'server/init/init.html' },
+        { from: './public/icon.png', to: 'server/init/icon.png' },
       ],
       win: { target: ['msi', 'nsis'], icon: './public/icons' },
       mac: { target: ['dmg', 'zip'], icon: './public/icons' },
@@ -111,7 +115,7 @@ export default defineConfig({
         },
       },
       directories: {
-        output: 'build',
+        output: 'package',
       },
     },
   },
