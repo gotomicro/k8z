@@ -1,9 +1,11 @@
 import type { ChildProcess } from 'child_process';
 import { exec } from 'child_process';
 import portfinder from 'portfinder';
-import { app } from 'electron';
+import { app, dialog } from 'electron';
 import * as net from 'net';
 import path from 'path';
+import { getLogPath } from './utils/loggerUtil';
+import fs from 'fs-extra';
 
 export let serverProcess: ChildProcess;
 export let port: number;
@@ -21,6 +23,7 @@ async function runServer() {
     ? path.join(path.dirname(app.getPath('exe')), '..', 'resources', 'server')
     : 'server';
   serverProcess = exec(cmd, { cwd: serverPath, env: { ...process.env, GODEBUG: 'x509sha1=1' } });
+
   // 打印正常的后台可执行程序输出
   serverProcess.stdout?.on('data', function (data) {
     console.log('stdout: ' + data);
@@ -34,7 +37,29 @@ async function runServer() {
   // 退出之后的输出
   serverProcess.on('close', function (code) {
     console.log('out code：' + code);
-    app.quit();
+    const logPath = getLogPath();
+    if (code !== 0) {
+      dialog
+        .showMessageBox({
+          message: '后端进程异常，详细请查看日志。',
+          detail: `日志地址：${logPath}`,
+          normalizeAccessKeys: false,
+          type: 'error',
+          textWidth: 420,
+          buttons: ['退出 K8Z', '退出 K8Z 并查看日志'],
+          defaultId: 0,
+        })
+        .then(async (res) => {
+          if (res.response === 1 && (await fs.pathExists(logPath))) {
+            const { shell } = require('electron');
+            shell.showItemInFolder(logPath);
+          }
+          app.quit();
+        })
+        .catch(console.error);
+    } else {
+      app.quit();
+    }
   });
 
   await waitUntilServerReady(port);

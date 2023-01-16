@@ -1,5 +1,6 @@
 import type { BrowserWindow } from 'electron';
 import { app, Menu, shell } from 'electron';
+import { Platforms } from '../enums';
 
 const ToolNames = [
   'Terminal',
@@ -11,7 +12,7 @@ const ToolNames = [
 ];
 
 export function initWindowMenu(mainWindow: BrowserWindow) {
-  const isMac = process.platform === 'darwin';
+  const isMac = process.platform === Platforms.MacOS;
   const template = [
     ...(isMac
       ? [

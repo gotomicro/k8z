@@ -2,15 +2,13 @@ import { userInfo } from 'os';
 import { execSync } from 'child_process';
 import stripAnsi from 'strip-ansi';
 import lodash from 'lodash';
-
-const WIN32_PLATFORM = 'win32';
-const DARWIN_PLATFORM = 'darwin';
+import { Platforms } from '../enums';
 
 export const ENV_PATH_KEY = 'PATH';
 
 const defaultShell = () => {
   const { env, platform } = process;
-  if (platform === WIN32_PLATFORM) {
+  if (platform === Platforms.Win) {
     return env.COMSPEC ?? 'cmd.exe';
   }
   try {
@@ -19,7 +17,7 @@ const defaultShell = () => {
       return shell;
     }
   } catch {}
-  if (platform === DARWIN_PLATFORM) {
+  if (platform === Platforms.MacOS) {
     return env.SHELL ?? '/bin/zsh';
   }
   return env.SHELL ?? '/bin/sh';
@@ -51,7 +49,7 @@ const parseEnvironment = (environment_: string): Record<string, string> => {
 };
 
 function shellEnvironmentSync(shell?: string): NodeJS.ProcessEnv {
-  if (process.platform === 'win32') {
+  if (process.platform === Platforms.Win) {
     return process.env;
   }
   try {
@@ -74,7 +72,7 @@ function shellPathSync(): string | undefined {
 }
 
 export function fixPathUtil(): void {
-  if (process.platform === 'win32') {
+  if (process.platform === Platforms.Win) {
     return;
   }
 
