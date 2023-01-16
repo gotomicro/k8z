@@ -13,8 +13,8 @@ let checkTimes = 1;
 
 async function runServer() {
   port = await portfinder.getPortPromise({
-    port: 9001, // minimum port
-    stopPort: 9999, // maximum port
+    port: 12283, // minimum port
+    stopPort: 13283, // maximum port
   });
   const cmd = `./k8z --port ${port}`;
   const serverPath = app.isPackaged
