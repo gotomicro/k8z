@@ -68,16 +68,8 @@ export default defineConfig({
     builderOptions: {
       extraResources: [
         {
-          from: '../bin',
+          from: 'server',
           to: 'server',
-        },
-        {
-          from: '../config',
-          to: 'server/config',
-        },
-        {
-          from: '../static-tcpdump',
-          to: 'server/static-tcpdump',
         },
         { from: './src/main/init/init.html', to: 'server/init/init.html' },
         { from: './public/icon.png', to: 'server/init/icon.png' },
