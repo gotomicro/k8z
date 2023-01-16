@@ -7,6 +7,7 @@ import { initLog } from './utils/loggerUtil';
 import { initWindowMenu } from './utils/menuUtil';
 import { downloadFile } from './utils/downloadFileUtil';
 import { initWindow } from './init/init';
+import { Platforms } from './enums';
 
 initLog();
 fixPathUtil();
@@ -19,9 +20,10 @@ protocol.registerSchemesAsPrivileged([
 ]);
 
 function createWindow() {
+  const size = require('electron').screen.getPrimaryDisplay().size;
   mainWindow = new BrowserWindow({
-    width: 1000,
-    height: 750,
+    width: size.width,
+    height: size.height,
     webPreferences: {
       webSecurity: false,
       contextIsolation: true,
@@ -59,7 +61,7 @@ app.on('window-all-closed', () => {
   if (serverProcess) {
     serverProcess.kill();
   }
-  if (process.platform !== 'darwin') {
+  if (process.platform !== Platforms.MacOS) {
     app.quit();
   }
 });
