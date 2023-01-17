@@ -6,6 +6,7 @@ import * as net from 'net';
 import path from 'path';
 import { getLogPath } from './utils/loggerUtil';
 import fs from 'fs-extra';
+import { Platforms } from './enums';
 
 export let serverProcess: ChildProcess;
 export let port: number;
@@ -18,10 +19,11 @@ async function runServer() {
     port: 12283, // minimum port
     stopPort: 13283, // maximum port
   });
-  const cmd = `./k8z --port ${port}`;
-  const serverPath = app.isPackaged
-    ? path.join(path.dirname(app.getPath('exe')), '..', 'resources', 'server')
-    : 'server';
+  const cmd =
+    process.platform === Platforms.Win ? `k8z.exe --port ${port}` : `./k8z --port ${port}`;
+  const serverPath = getServerPath();
+  console.log('serverPath------->', serverPath);
+  console.log('env------->', process.env);
   serverProcess = exec(cmd, { cwd: serverPath, env: { ...process.env, GODEBUG: 'x509sha1=1' } });
 
   // 打印正常的后台可执行程序输出
@@ -93,6 +95,21 @@ function checkPortReady(port: number): Promise<boolean> {
       resolve(false);
     });
   });
+}
+
+function getServerPath(): string {
+  if (!app.isPackaged) {
+    return 'server';
+  }
+  switch (process.platform) {
+    case Platforms.Win:
+      return path.join(path.dirname(app.getPath('exe')), 'resources', 'server');
+    case Platforms.MacOS:
+      return path.join(path.dirname(app.getPath('exe')), '..', 'resources', 'server');
+    case Platforms.Linux:
+    default:
+      return path.join(path.dirname(app.getPath('exe')), '..', 'resources', 'server');
+  }
 }
 
 export default runServer;

@@ -17,8 +17,8 @@ const showInitWindow = (isDevelopment: boolean, showCallback: () => Promise<void
     createProtocol('k8z');
     initLoadingWindow.loadFile('../server/init/init.html').catch(console.error);
   }
-  initLoadingWindow.show();
   initLoadingWindow.once('show', showCallback);
+  initLoadingWindow.show();
   return initLoadingWindow;
 };
 
