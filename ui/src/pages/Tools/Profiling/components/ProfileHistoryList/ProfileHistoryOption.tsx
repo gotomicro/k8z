@@ -5,7 +5,7 @@ import type { Profile } from '@/services/profiling';
 import lodash from 'lodash';
 import { AnchorScrollKey, documentScrollUtil } from '@/utils/documentScrollUtil';
 import { getDownloadProfilePath } from '@/pages/Tools/Profiling/utils/downloadProfileUtile';
-import { useModel } from '@@/plugin-model';
+import { useModel } from '@umijs/max';
 
 interface ProfileHistoryOptionProps {
   profile: Profile;

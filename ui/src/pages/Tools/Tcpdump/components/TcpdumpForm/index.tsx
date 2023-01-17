@@ -4,7 +4,7 @@ import type { StartTcpdumpWsUrlParams } from '@/services/tcpdump';
 import { TcpdumpMode, CaughtModeMapping, DOWNLOAD_CAUGHT_PATH } from '@/services/tcpdump';
 import type { RefObject } from 'react';
 import React, { useCallback, useEffect } from 'react';
-import { useModel } from '@@/exports';
+import { useModel } from '@umijs/max';
 import {
   StyledCaughtFormLabel,
   StyledCaughtFromOptions,

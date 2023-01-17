@@ -3,7 +3,7 @@ import {
   StyledPodSelectCardSelect,
 } from '@/components/PodSelectCard/styles/index.styled';
 import { Select, Tag } from 'antd';
-import { useModel } from '@@/exports';
+import { useModel } from '@umijs/max';
 import ContentCard from '@/components/ContentCard';
 import { usePodSelect } from '@/hooks/usePodSelect';
 import { useMemo } from 'react';
