@@ -2,7 +2,7 @@ import React from 'react';
 import { StyledClusterSettingButton } from '@/components/ClusterSettingButton/styles/index.styled';
 import { SettingOutlined } from '@ant-design/icons';
 
-const CLUSTER_SETTING_HASH = '#/init';
+const CLUSTER_SETTING_HASH = '#/manage/cluster';
 const ClusterSettingButton: React.FC = () => {
   if (location.hash === CLUSTER_SETTING_HASH) {
     return null;
