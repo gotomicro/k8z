@@ -60,7 +60,7 @@
     "electron:build:linux:pro": "cross-env UMI_ENV=pro max build electron --linux",
     "electron:build:pro": "cross-env UMI_ENV=pro max build electron",
     "electron:generate-icons": "electron-icon-builder --input=./public/icon.png --output=public --flatten",
-    "electron:build-server": "cd .. && make build.api && mkdir -p ui/server && cp bin/k8z ui/server/k8z && cp -r config ui/server/config && cp static-tcpdump ui/server/static-tcpdump && cd ui"
+    "electron:build-server": "cd .. && make build.server"
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": "yarn run lint-staged:js",
