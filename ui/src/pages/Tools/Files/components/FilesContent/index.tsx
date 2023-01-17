@@ -4,7 +4,7 @@ import { useFiles } from '@/pages/Tools/Files/hooks/useFiles';
 import FilesHeader from '@/pages/Tools/Files/components/FilesHeader';
 import FileList from '@/pages/Tools/Files/components/FileList';
 import { StyledFileCard } from '@/pages/Tools/Files/styles/index.styled';
-import { useModel } from '@@/plugin-model';
+import { useModel } from '@umijs/max';
 
 export interface FilesContentProps {
   pod: Required<OptionsPodInfo>;

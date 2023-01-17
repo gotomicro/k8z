@@ -19,7 +19,7 @@ import { getDownloadProfilePath } from '@/pages/Tools/Profiling/utils/downloadPr
 import { useThrottleFn } from 'ahooks';
 import { DEFAULT_WAIT } from '@/configs/default';
 import Loading from '@/components/Loading';
-import { useModel } from '@@/plugin-model';
+import { useModel } from '@umijs/max';
 import { RequestBaseUrl } from '@/utils/electronRenderUtil';
 
 export interface ProfileViewProps {

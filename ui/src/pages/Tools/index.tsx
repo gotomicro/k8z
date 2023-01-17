@@ -1,4 +1,4 @@
-import { useModel } from '@@/plugin-model';
+import { useModel } from '@umijs/max';
 import PodSelectCard, {
   HIDE_POD_OR_CONFIGMAP_SELECT_ARR,
   SHOW_CONFIGMAP_PATHNAME_ARR,
