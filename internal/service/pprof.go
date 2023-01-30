@@ -297,7 +297,7 @@ func (p *pprof) CheckDependencies() (err error) {
 	// 2 check dot -v, graphiz
 	if _, err = exec.Command("dot", "-v").Output(); err != nil {
 		des = append(des, util.DepError{
-			Dependency: "graphiz",
+			Dependency: "graphviz",
 			Refer:      "https://graphviz.org/download/",
 		})
 	}
