@@ -2,6 +2,7 @@ package kube
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 
 	appsv1 "k8s.io/api/apps/v1"
@@ -134,6 +135,9 @@ func (cm ClusterManager) ClusterResources() *dto.KubeCluster {
 	for _, dtoNamespace := range namespaceMap {
 		namespaces = append(namespaces, dtoNamespace)
 	}
+	sort.Slice(namespaces, func(i, j int) bool {
+		return namespaces[i].Name < namespaces[j].Name
+	})
 	return &dto.KubeCluster{
 		Name:       cm.Cluster.Name,
 		Namespaces: namespaces,

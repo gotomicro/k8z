@@ -3,6 +3,7 @@ package kube
 import (
 	"archive/tar"
 	"bytes"
+	"context"
 	"errors"
 	"fmt"
 	"io"
@@ -11,6 +12,7 @@ import (
 	"net/url"
 	"path"
 	"path/filepath"
+	"sort"
 	"strings"
 	"sync"
 	"time"
@@ -19,6 +21,7 @@ import (
 	jsoniter "github.com/json-iterator/go"
 	"go.uber.org/zap"
 	corev1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes/scheme"
 	"k8s.io/client-go/tools/remotecommand"
 
@@ -403,6 +406,11 @@ func GetClusterManager(name string) (*ClusterManager, error) {
 					if err != nil {
 						return nil, err
 					}
+					// check cluster permission
+					_, err = cm.Client.CoreV1().Namespaces().List(context.Background(), metav1.ListOptions{})
+					if err != nil {
+						return nil, err
+					}
 					if currentManagerSet != nil {
 						currentManagerSet.KubeClient.Stop()
 					}
@@ -525,6 +533,9 @@ func GetAllClusters() (result []*Cluster, err error) {
 			}
 		}
 	}
+	sort.Slice(result, func(i, j int) bool {
+		return result[i].Name < result[j].Name
+	})
 	list, err := dao.ClusterList(invoker.DB)
 	if err != nil {
 		return nil, err

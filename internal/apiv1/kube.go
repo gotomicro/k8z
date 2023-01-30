@@ -1,6 +1,8 @@
 package apiv1
 
 import (
+	"sort"
+
 	"github.com/spf13/cast"
 	corev1 "k8s.io/api/core/v1"
 
@@ -165,7 +167,7 @@ func KubePods(c *core.Context) {
 		return
 	}
 	cluster := cm.ClusterResources()
-	var ret = make([]interface{}, 0)
+	var ret = make([]*dto.KubePod, 0)
 	allowNotReady := cast.ToBool(c.Query("allowNotReady"))
 	namespace := c.Param("namespace")
 	var resNamespace *dto.KubeNamespace
@@ -187,6 +189,9 @@ func KubePods(c *core.Context) {
 			ret = append(ret, pod)
 		}
 	}
+	sort.Slice(ret, func(i, j int) bool {
+		return ret[i].Name < ret[j].Name
+	})
 	c.JSONOK(ret)
 }
 
