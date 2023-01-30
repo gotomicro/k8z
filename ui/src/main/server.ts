@@ -7,6 +7,7 @@ import path from 'path';
 import { getLogPath } from './utils/loggerUtil';
 import fs from 'fs-extra';
 import { Platforms } from './enums';
+import { toNumber } from 'lodash';
 
 export let serverProcess: ChildProcess;
 export let port: number;
@@ -19,6 +20,10 @@ async function runServer() {
     port: 12283, // minimum port
     stopPort: 13283, // maximum port
   });
+  if (process.env.SERVER_PORT) {
+    port = toNumber(process.env.SERVER_PORT);
+    return;
+  }
   const cmd =
     process.platform === Platforms.Win ? `k8z.exe --port ${port}` : `./k8z --port ${port}`;
   const serverPath = getServerPath();
