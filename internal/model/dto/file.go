@@ -23,7 +23,7 @@ type UploadFileToPod struct {
 	Namespace     string `form:"namespace" json:"namespace"`
 	ContainerName string `form:"containerName" json:"containerName"`
 	DstPath       string `form:"dstPath" json:"dstPath"`
-
-	SrcContent []byte `json:"-" form:"-"`
-	Filename   string `json:"-" form:"-"`
+	FilePath      string `form:"filePath" json:"filePath"` // 本地上传方式
+	Filename      string `json:"-" form:"-"`
+	SrcContent    []byte `json:"-" form:"-"`
 }

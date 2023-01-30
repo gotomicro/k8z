@@ -3,6 +3,8 @@ package service
 import (
 	"context"
 	"errors"
+	"io"
+	"os"
 	"path"
 	"strings"
 	"time"
@@ -66,29 +68,45 @@ func UploadFileToPod(ctx context.Context, req *dto.UploadFileToPod) error {
 	if err != nil {
 		return err
 	}
-	err = cm.PodUploadFile(kube.UploadFileRequest{
-		Namespace:     req.Namespace,
-		PodName:       req.PodName,
-		ContainerName: req.ContainerName,
-		SrcContent:    req.SrcContent,
-		DstDir:        req.DstPath,
-		Filename:      req.Filename,
-	})
-	return err
+	if req.FilePath != "" {
+		f, err := os.Open(req.FilePath)
+		if err != nil {
+			return err
+		}
+		err = cm.PodUploadFileStream(kube.UploadFileStreamRequest{
+			Namespace:     req.Namespace,
+			PodName:       req.PodName,
+			ContainerName: req.ContainerName,
+			DstDir:        req.DstPath,
+			Filename:      req.Filename,
+			SrcFile:       f,
+		})
+		return err
+	} else {
+		err = cm.PodUploadFile(kube.UploadFileRequest{
+			Namespace:     req.Namespace,
+			PodName:       req.PodName,
+			ContainerName: req.ContainerName,
+			SrcContent:    req.SrcContent,
+			DstDir:        req.DstPath,
+			Filename:      req.Filename,
+		})
+		return err
+	}
 }
 
-func DownloadFileFromPod(ctx context.Context, req *dto.DownloadFileFromPod) ([]byte, error) {
+func DownloadFileFromPod(ctx context.Context, req *dto.DownloadFileFromPod) (io.ReadCloser, error) {
 	cm, err := kube.GetClusterManager(req.ClusterName)
 	if err != nil {
 		return nil, err
 	}
-	content, err := cm.PodDownloadFile(kube.DownloadFileRequest{
+	reader, err := cm.PodDownloadFileStream(kube.DownloadFileRequest{
 		Namespace:     req.Namespace,
 		PodName:       req.PodName,
 		ContainerName: req.ContainerName,
 		SrcPaths:      req.Paths,
 	})
-	return content, err
+	return reader, err
 }
 
 type FileInfo struct {

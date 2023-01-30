@@ -1,12 +1,15 @@
 package apiv1
 
 import (
-	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"path"
+	"path/filepath"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gotomicro/ego/core/elog"
+	"go.uber.org/zap"
 
 	"k8z/internal/model/dto"
 	"k8z/internal/service"
@@ -49,8 +52,12 @@ func DownloadFileFromPod(c *core.Context) {
 	}
 	c.Header("Content-Disposition", "attachment; filename="+outputName+".tar")
 	c.Header("Content-Type", "application/octet-stream")
-	c.Header("Content-Length", fmt.Sprintf("%d", len(data)))
-	c.Writer.Write(data)
+	//c.Header("Content-Length", fmt.Sprintf("%d", len(data)))
+	_, err = io.Copy(c.Writer, data)
+	if err != nil {
+		elog.Error("download file from pod error", zap.Error(err))
+		return
+	}
 }
 
 func UploadFileToPod(c *core.Context) {
@@ -60,18 +67,22 @@ func UploadFileToPod(c *core.Context) {
 		c.JSONE(core.CodeErr, "参数无效: "+err.Error(), nil)
 		return
 	}
-	fh, err := c.FormFile("file")
-	if err != nil {
-		c.JSONE(core.CodeErr, "获取文件错误: "+err.Error(), nil)
-		return
+	if params.FilePath != "" {
+		params.Filename = filepath.Base(params.FilePath)
+	} else {
+		fh, err := c.FormFile("file")
+		if err != nil {
+			c.JSONE(core.CodeErr, "获取文件错误: "+err.Error(), nil)
+			return
+		}
+		params.Filename = fh.Filename
+		f, err := fh.Open()
+		if err != nil {
+			c.JSONE(core.CodeErr, "open文件错误: "+err.Error(), nil)
+			return
+		}
+		params.SrcContent, _ = ioutil.ReadAll(f)
 	}
-	params.Filename = fh.Filename
-	f, err := fh.Open()
-	if err != nil {
-		c.JSONE(core.CodeErr, "open文件错误: "+err.Error(), nil)
-		return
-	}
-	params.SrcContent, _ = ioutil.ReadAll(f)
 	err = service.UploadFileToPod(c.Request.Context(), &params)
 	if err != nil {
 		c.JSONE(core.CodeErr, "error: "+err.Error(), nil)

@@ -10,6 +10,8 @@ import (
 	"net/http"
 	"net/url"
 	"path"
+	"path/filepath"
+	"strings"
 	"sync"
 	"time"
 
@@ -95,6 +97,15 @@ type UploadFileRequest struct {
 	ContainerName string
 }
 
+type UploadFileStreamRequest struct {
+	SrcFile       io.ReadCloser
+	Filename      string
+	DstDir        string
+	Namespace     string
+	PodName       string
+	ContainerName string
+}
+
 type DownloadFileRequest struct {
 	SrcPaths      []string
 	Namespace     string
@@ -133,6 +144,26 @@ func (cm ClusterManager) PodUploadFile(req UploadFileRequest) error {
 		ContainerName: req.ContainerName,
 		Command:       tarCmd,
 		StdIn:         stdIn,
+		StdOut:        stdOut,
+		StdErr:        stdErr,
+	}
+	exitCode, err := cm.PodExecuteCommand(execTarRequest)
+	if exitCode != 0 {
+		err = fmt.Errorf("upload file error: %s", stdErr.Output)
+	}
+	return err
+}
+
+func (cm ClusterManager) PodUploadFileStream(req UploadFileStreamRequest) error {
+	stdOut := new(Writer)
+	stdErr := new(Writer)
+	catCmd := []string{"cat", "-", ">", filepath.Join(req.DstDir, req.Filename)}
+	execTarRequest := ExecCommandRequest{
+		Namespace:     req.Namespace,
+		PodName:       req.PodName,
+		ContainerName: req.ContainerName,
+		Command:       []string{"sh", "-c", strings.Join(catCmd, " ")},
+		StdIn:         req.SrcFile,
 		StdOut:        stdOut,
 		StdErr:        stdErr,
 	}
@@ -182,6 +213,54 @@ func (cm ClusterManager) PodDownloadFile(req DownloadFileRequest) ([]byte, error
 		err = fmt.Errorf("download file error: %s", stdErr.Output)
 	}
 	return []byte(stdOut.Output), err
+}
+
+func (cm ClusterManager) PodDownloadFileStream(req DownloadFileRequest) (io.ReadCloser, error) {
+	if len(req.SrcPaths) == 0 {
+		return nil, errors.New("source paths nil")
+	}
+	pr, pw := io.Pipe()
+	stdErr := new(Writer)
+	tarCmd := []string{"tar", "-cf", "-"}
+	var (
+		srcDir   string
+		srcNames []string
+	)
+	srcDir = path.Dir(req.SrcPaths[0])
+	for _, p := range req.SrcPaths {
+		p = path.Clean(p)
+		if path.Dir(p) != srcDir {
+			return nil, errors.New("all paths should in same dir")
+		}
+		srcNames = append(srcNames, path.Base(p))
+	}
+	if len(srcDir) > 0 {
+		tarCmd = append(tarCmd, "-C", srcDir)
+	}
+	for _, src := range srcNames {
+		tarCmd = append(tarCmd, src)
+	}
+
+	execTarRequest := ExecCommandRequest{
+		Namespace:     req.Namespace,
+		PodName:       req.PodName,
+		ContainerName: req.ContainerName,
+		Command:       tarCmd,
+		StdOut:        pw,
+		StdErr:        stdErr,
+	}
+	go func() {
+		var exitCode int
+		var err error
+		defer func() {
+			pw.CloseWithError(err)
+		}()
+		exitCode, err = cm.PodExecuteCommand(execTarRequest)
+		if exitCode != 0 {
+			err = fmt.Errorf("download file error: %s", stdErr.Output)
+		}
+	}()
+	return pr, nil
 }
 
 func (cm ClusterManager) PodExecuteCommand(req ExecCommandRequest) (int, error) {
