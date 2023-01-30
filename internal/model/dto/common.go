@@ -6,5 +6,5 @@ import (
 
 type CheckDependenciesResponse struct {
 	Success          bool           `json:"success"`
-	DependencyErrors util.DepErrors `json:"dependency_errors"`
+	DependencyErrors util.DepErrors `json:"dependencyErrors"`
 }
