@@ -1,17 +1,17 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { SHOW_ALL_POD_PATHNAME_ARR, SHOW_CONFIGMAP_PATHNAME_ARR } from '@/components/PodSelectCard';
 import type { Clusters } from '@/services/cluster';
 import { getClusterList } from '@/services/cluster';
-import { k8zStorageKeys, localStorageManage } from '@/utils/storageUtil';
-import { message } from 'antd';
-import type { Namespace } from '@/services/namespace';
-import { getNamespaceList } from '@/services/namespace';
-import { SHOW_ALL_POD_PATHNAME_ARR, SHOW_CONFIGMAP_PATHNAME_ARR } from '@/components/PodSelectCard';
 import type { ConfigMapInfo } from '@/services/configmap';
 import { getConfigmaps } from '@/services/configmap';
+import type { Namespace } from '@/services/namespace';
+import { getNamespaceList } from '@/services/namespace';
 import type { Pod } from '@/services/pods';
 import { getPodListInNamespace } from '@/services/pods';
 import { checkJsonStrUtils } from '@/utils/checkJsonUtils';
+import { k8zStorageKeys, localStorageManage } from '@/utils/storageUtil';
+import { message } from 'antd';
 import { omit } from 'lodash';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'umi';
 
 interface PodSelectProps {
@@ -98,7 +98,7 @@ export const usePodSelect = ({
       .finally(() => setLoadingCluster(false));
   }, []);
 
-  const getNamespaces = useCallback((cluster, isFocus?: boolean) => {
+  const getNamespaces = useCallback((cluster: string, isFocus?: boolean) => {
     setLoadingNamespace(true);
     getNamespaceList({ cluster })
       .then((res) => {
@@ -119,7 +119,7 @@ export const usePodSelect = ({
   }, []);
 
   const getPodsOrConfigmap = useCallback(
-    (cluster, namespace, isFocus?: boolean) => {
+    (cluster: string, namespace: string, isFocus?: boolean) => {
       const allowNotReady = SHOW_ALL_POD_PATHNAME_ARR.includes(currentLocation?.pathname);
       const getList = isConfigMap ? getConfigmaps : getPodListInNamespace;
       const params = isConfigMap

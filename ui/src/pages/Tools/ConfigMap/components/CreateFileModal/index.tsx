@@ -1,8 +1,8 @@
-import type { MutableRefObject } from 'react';
-import React from 'react';
+import { DEFAULT_CONFIGMAP_TYPE, PrettyConfigmapTypes } from '@/enums/pretty';
 import type { FormInstance } from 'antd';
 import { Form, Input, Modal, Select } from 'antd';
-import { DEFAULT_CONFIGMAP_TYPE, PrettyConfigmapTypes } from '@/enums/pretty';
+import type { MutableRefObject } from 'react';
+import React from 'react';
 
 interface CreateFileModalProps {
   open: boolean;

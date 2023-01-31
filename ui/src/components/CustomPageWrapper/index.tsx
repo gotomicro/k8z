@@ -1,6 +1,6 @@
-import type { ReactNode } from 'react';
 import { Card } from 'antd';
 import type { CardProps } from 'antd/lib/card/Card';
+import type { ReactNode } from 'react';
 
 interface CustomPageWrapperProps extends CardProps {
   children?: ReactNode;

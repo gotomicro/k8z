@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react';
-import { StyledPodProxyRequestInfo } from '@/pages/Tools/PodProxy/styles/request.styled';
 import RequestBody from '@/pages/Tools/PodProxy/components/ProxyRequestInfo/RequestBody';
 import RequestHeaders from '@/pages/Tools/PodProxy/components/ProxyRequestInfo/RequestHeaders';
 import { RequestTypes } from '@/pages/Tools/PodProxy/components/RequestType';
+import { StyledPodProxyRequestInfo } from '@/pages/Tools/PodProxy/styles/request.styled';
+import React, { useMemo } from 'react';
 
 export interface DefaultInfoProps {
   value?: any;

@@ -1,18 +1,18 @@
-import React from 'react';
 import ContentCard from '@/components/ContentCard';
-import { k8zStorageKeys, localStorageManage } from '@/utils/storageUtil';
+import Loading from '@/components/Loading';
+import { useContainer } from '@/hooks/useContainer';
 import type { FormParams } from '@/pages/Tools/Debug/components/ConfigForm';
 import ConfigForm from '@/pages/Tools/Debug/components/ConfigForm';
-import { Empty, Form } from 'antd';
-import type { Pod } from '@/services/pods';
-import { useContainer } from '@/hooks/useContainer';
 import { useDebug } from '@/pages/Tools/Debug/hooks/useDebug';
-import Loading from '@/components/Loading';
 import {
   StyledDebug,
   StyledDebugTerm,
   StyledDebugTermEmpty,
 } from '@/pages/Tools/Debug/styles/index.styled';
+import type { Pod } from '@/services/pods';
+import { k8zStorageKeys, localStorageManage } from '@/utils/storageUtil';
+import { Empty, Form } from 'antd';
+import React from 'react';
 
 interface DebugProps {
   currentPod: Pod;

@@ -1,15 +1,15 @@
-import React from 'react';
-import type { Pod } from '@/services/pods';
+import ContainerSelectCard from '@/components/ContainerSelectCard';
+import ContentCard from '@/components/ContentCard';
 import { useContainer } from '@/hooks/useContainer';
+import Term from '@/pages/Tools/Terminal/components/Term';
 import {
   StyledTerminalCardBody,
   StyledTerminalCardBodyEmpty,
 } from '@/pages/Tools/Terminal/styles/body.styled';
-import { Empty } from 'antd';
-import Term from '@/pages/Tools/Terminal/components/Term';
-import ContentCard from '@/components/ContentCard';
+import type { Pod } from '@/services/pods';
 import { k8zStorageKeys, localStorageManage } from '@/utils/storageUtil';
-import ContainerSelectCard from '@/components/ContainerSelectCard';
+import { Empty } from 'antd';
+import React from 'react';
 
 interface TerminalToolProps {
   currentPod: Pod;

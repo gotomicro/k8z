@@ -1,10 +1,10 @@
-import TerminalImg from '@/assets/toolsIcon/terminal.png';
-import TcpdumpImg from '@/assets/toolsIcon/tcpdump.png';
-import FilesImg from '@/assets/toolsIcon/files.png';
-import ProfilingImg from '@/assets/toolsIcon/profiling.png';
-import PodProxyImg from '@/assets/toolsIcon/pod-proxy.png';
-import DebugImg from '@/assets/toolsIcon/debug.png';
 import ConfigMapImg from '@/assets/toolsIcon/config.png';
+import DebugImg from '@/assets/toolsIcon/debug.png';
+import FilesImg from '@/assets/toolsIcon/files.png';
+import PodProxyImg from '@/assets/toolsIcon/pod-proxy.png';
+import ProfilingImg from '@/assets/toolsIcon/profiling.png';
+import TcpdumpImg from '@/assets/toolsIcon/tcpdump.png';
+import TerminalImg from '@/assets/toolsIcon/terminal.png';
 
 export enum ToolNames {
   Terminal = 'Terminal',

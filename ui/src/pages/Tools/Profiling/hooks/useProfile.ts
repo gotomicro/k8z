@@ -1,15 +1,10 @@
-import { useCallback, useState } from 'react';
+import type { Pod } from '@/services/pods';
 import type { CreateProfileParams, Profile } from '@/services/profiling';
 import { createdProfile, getProfiles, Modes } from '@/services/profiling';
-import { message } from 'antd';
-import type { Pod } from '@/services/pods';
-import lodash from 'lodash';
 import { AnchorScrollKey, documentScrollUtil } from '@/utils/documentScrollUtil';
-
-export enum ProfileOptions {
-  create = 'create',
-  history = 'history',
-}
+import { message } from 'antd';
+import lodash from 'lodash';
+import { useCallback, useState } from 'react';
 
 export const useProfile = ({ currentPod }: { currentPod: Pod }) => {
   const [profile, setProfile] = useState<{ url: string } | undefined>();

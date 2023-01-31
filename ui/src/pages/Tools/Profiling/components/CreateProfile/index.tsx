@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react';
-import { Button, Col, Form, Input, InputNumber, Radio, Row, Space } from 'antd';
+import { StyledProfileCreatedMode } from '@/pages/Tools/Profiling/styles/index.styled';
 import type { CreateProfileParams } from '@/services/profiling';
 import { ModeMapping, Modes } from '@/services/profiling';
 import { PlusOutlined } from '@ant-design/icons';
-import { StyledProfileCreatedMode } from '@/pages/Tools/Profiling/styles/index.styled';
+import { Button, Col, Form, Input, InputNumber, Radio, Row, Space } from 'antd';
+import React, { useMemo } from 'react';
 
 interface CreateProfileProps {
   spinning: boolean;

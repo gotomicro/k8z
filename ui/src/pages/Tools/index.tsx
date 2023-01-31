@@ -1,22 +1,22 @@
-import { useModel } from '@umijs/max';
 import PodSelectCard, {
   HIDE_POD_OR_CONFIGMAP_SELECT_ARR,
   SHOW_CONFIGMAP_PATHNAME_ARR,
 } from '@/components/PodSelectCard';
-import React, { useEffect, useMemo } from 'react';
-import { ToolPathNames, ToolsMapArr } from '@/pages/ToolsMap/configs/configs';
-import TerminalTool from '@/pages/Tools/Terminal';
-import Tcpdump from '@/pages/Tools/Tcpdump';
-import { k8zStorageKeys, localStorageManage, removeLocalStorageManage } from '@/utils/storageUtil';
-import { useTools } from '@/hooks/useTools';
 import ToolCardEmpty from '@/components/ToolCardEmpty';
+import { useTools } from '@/hooks/useTools';
+import ConfigMap from '@/pages/Tools/ConfigMap';
+import Debug from '@/pages/Tools/Debug';
+import Files from '@/pages/Tools/Files';
+import Nodes from '@/pages/Tools/Nodes';
 import PodProxy from '@/pages/Tools/PodProxy';
 import Profiling from '@/pages/Tools/Profiling';
-import Files from '@/pages/Tools/Files';
-import Debug from '@/pages/Tools/Debug';
-import ConfigMap from '@/pages/Tools/ConfigMap';
+import Tcpdump from '@/pages/Tools/Tcpdump';
+import TerminalTool from '@/pages/Tools/Terminal';
+import { ToolPathNames, ToolsMapArr } from '@/pages/ToolsMap/configs/configs';
+import { k8zStorageKeys, localStorageManage, removeLocalStorageManage } from '@/utils/storageUtil';
+import { useModel } from '@umijs/max';
+import React, { useEffect, useMemo } from 'react';
 import { useLocation } from 'umi';
-import Nodes from '@/pages/Tools/Nodes';
 
 const Tools: React.FC = () => {
   const currentLocation = useLocation();

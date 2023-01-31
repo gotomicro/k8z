@@ -1,5 +1,5 @@
-import styled from 'styled-components';
 import { Space } from 'antd';
+import styled from 'styled-components';
 
 export const StyledToolsMap = styled.div`
   margin: 18px 0;

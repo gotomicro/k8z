@@ -1,11 +1,11 @@
+import { ReactComponent as TextNotWrapSVG } from '@/assets/icon/text-not-wrap.svg';
+import { ReactComponent as TextWrapSVG } from '@/assets/icon/text-wrap.svg';
+import { PrettyTypes, PrettyTypesMapping } from '@/enums/pretty';
+import styles from '@/pages/Tools/PodProxy/styles/response.less';
+import { CopyOutlined, FormatPainterOutlined, SearchOutlined } from '@ant-design/icons';
 import type { RadioChangeEvent } from 'antd';
 import { Button, Radio, Select } from 'antd';
 import React, { useMemo } from 'react';
-import { CopyOutlined, FormatPainterOutlined, SearchOutlined } from '@ant-design/icons';
-import { ReactComponent as TextWrapSVG } from '@/assets/icon/text-wrap.svg';
-import { ReactComponent as TextNotWrapSVG } from '@/assets/icon/text-not-wrap.svg';
-import styles from '@/pages/Tools/PodProxy/styles/response.less';
-import { PrettyTypes, PrettyTypesMapping } from '@/enums/pretty';
 
 export enum BodyRadios {
   pretty = 'pretty',

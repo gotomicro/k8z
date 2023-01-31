@@ -1,17 +1,17 @@
-import type { MutableRefObject } from 'react';
-import React, { useRef } from 'react';
+import Loading from '@/components/Loading';
+import { DEFAULT_CONFIGMAP_TYPE, PrettyConfigmapTypes } from '@/enums/pretty';
 import {
   StyledConfigMapContent,
   StyledConfigMapEditor,
   StyledConfigMapEditorEmpty,
   StyledConfigMapEditorOptions,
 } from '@/pages/Tools/ConfigMap/styles/editor.styled';
-import { Button, Empty, Select, Space } from 'antd';
-import { DEFAULT_CONFIGMAP_TYPE, PrettyConfigmapTypes } from '@/enums/pretty';
-import Loading from '@/components/Loading';
-import lodash from 'lodash';
 import { FullscreenExitOutlined, FullscreenOutlined, SaveOutlined } from '@ant-design/icons';
 import { useFullscreen } from 'ahooks';
+import { Button, Empty, Select, Space } from 'antd';
+import lodash from 'lodash';
+import type { MutableRefObject } from 'react';
+import React, { useRef } from 'react';
 
 interface ConfigMapEditorProps {
   loading: boolean;

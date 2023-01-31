@@ -1,14 +1,11 @@
-import React, { useCallback, useRef, useState } from 'react';
 import {
   StyledConfigMapFileButton,
   StyledConfigMapFileNameButton,
-  // StyledConfigMapFileDeleteIcon,
-  // StyledConfigMapFileItem,
-  // StyledConfigMapFileName,
 } from '@/pages/Tools/ConfigMap/styles/files.styled';
 import type { ConfigMapFileInfo } from '@/services/configmap';
-import { Button, message, Modal, Tooltip } from 'antd';
 import { DeleteOutlined, ExclamationCircleFilled } from '@ant-design/icons';
+import { Button, message, Modal, Tooltip } from 'antd';
+import React, { useCallback, useRef, useState } from 'react';
 
 interface ConfigMapFileItemProps {
   file: ConfigMapFileInfo;

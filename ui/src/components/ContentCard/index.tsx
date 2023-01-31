@@ -1,11 +1,11 @@
-import type { ReactNode } from 'react';
-import React from 'react';
 import {
   StyledContentCard,
   StyledContentCardBody,
   StyledContentCardTitle,
   StyledContentCardTitleContext,
 } from '@/components/ContentCard/styles/index.styled';
+import type { ReactNode } from 'react';
+import React from 'react';
 
 interface ContentCardProps {
   id?: string;

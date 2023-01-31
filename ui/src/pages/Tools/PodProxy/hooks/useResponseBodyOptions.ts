@@ -1,13 +1,13 @@
-import type { RadioChangeEvent } from 'antd';
-import { message } from 'antd';
-import copy from 'copy-to-clipboard';
-import { useCallback, useState } from 'react';
+import { PrettyTypes } from '@/enums/pretty';
 import type { WrapTypes } from '@/pages/Tools/PodProxy/components/ResponseInfo/ResponseBodyOptions';
 import {
   BodyRadios,
   ContentTypes,
 } from '@/pages/Tools/PodProxy/components/ResponseInfo/ResponseBodyOptions';
-import { PrettyTypes } from '@/enums/pretty';
+import type { RadioChangeEvent } from 'antd';
+import { message } from 'antd';
+import copy from 'copy-to-clipboard';
+import { useCallback, useState } from 'react';
 
 export interface ResponseBodyOptionProps {
   editor: any;

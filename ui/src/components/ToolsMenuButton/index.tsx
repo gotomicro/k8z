@@ -1,10 +1,10 @@
-import React, { useMemo } from 'react';
-import { FloatButton } from 'antd';
-import { ToolsMapArr } from '@/pages/ToolsMap/configs/configs';
-import { StyledToolsMenuButton } from '@/components/ToolsMenuButton/styles/index.styled';
-import { useLocation } from 'umi';
 import IconFont from '@/components/IconFont';
+import { StyledToolsMenuButton } from '@/components/ToolsMenuButton/styles/index.styled';
 import { useTools } from '@/hooks/useTools';
+import { ToolsMapArr } from '@/pages/ToolsMap/configs/configs';
+import { FloatButton } from 'antd';
+import React, { useMemo } from 'react';
+import { useLocation } from 'umi';
 
 const ToolsMenuButton: React.FC = () => {
   const locationPathname = useLocation().pathname;

@@ -1,6 +1,6 @@
-import React from 'react';
-import MonacoEditor from '@monaco-editor/react';
 import type { DefaultInfoProps } from '@/pages/Tools/PodProxy/components/ProxyRequestInfo/index';
+import MonacoEditor from '@monaco-editor/react';
+import React from 'react';
 
 const RequestBody: React.FC<DefaultInfoProps> = ({ value, onChange }) => {
   return (

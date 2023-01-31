@@ -1,6 +1,6 @@
-import React from 'react';
 import { StyledLoading } from '@/components/Loading/styles/index.styled';
 import { Spin } from 'antd';
+import React from 'react';
 
 interface LoadingProps {
   loading?: boolean;

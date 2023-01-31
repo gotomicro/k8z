@@ -1,7 +1,6 @@
-import React from 'react';
 import styles from '@/pages/Tools/Files/styles/header.less';
-import { useCallback } from 'react';
 import { message } from 'antd';
+import React, { useCallback } from 'react';
 
 interface FilesPathItemProps {
   folder: string;

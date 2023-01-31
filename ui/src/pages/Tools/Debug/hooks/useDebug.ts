@@ -1,10 +1,10 @@
-import type { OptionsPodInfo } from '@/services/pods';
-import type { FormParams } from '@/pages/Tools/Debug/components/ConfigForm';
-import { useCallback, useEffect, useState } from 'react';
-import { AnchorScrollKey, documentScrollUtil } from '@/utils/documentScrollUtil';
-import { useTerminal } from '@/hooks/useTerminal';
-import { DEBUG_API } from '@/services/pods';
 import { INIT_MONACO_WAIT } from '@/configs/default';
+import { useTerminal } from '@/hooks/useTerminal';
+import type { FormParams } from '@/pages/Tools/Debug/components/ConfigForm';
+import type { OptionsPodInfo } from '@/services/pods';
+import { DEBUG_API } from '@/services/pods';
+import { AnchorScrollKey, documentScrollUtil } from '@/utils/documentScrollUtil';
+import { useCallback, useEffect, useState } from 'react';
 
 interface DebugProps {
   podInfo?: OptionsPodInfo;

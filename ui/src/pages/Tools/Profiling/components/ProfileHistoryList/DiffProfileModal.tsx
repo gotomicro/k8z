@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import type { Profile } from '@/services/profiling';
 import { Form, Input, Modal, Select } from 'antd';
 import type { FormInstance } from 'antd/es/form/Form';
-import type { Profile } from '@/services/profiling';
 import type { DefaultOptionType } from 'rc-select/lib/Select';
+import React, { useCallback, useEffect, useRef } from 'react';
 
 interface DiffProfileModalProps {
   open: boolean;

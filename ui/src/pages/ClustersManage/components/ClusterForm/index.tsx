@@ -1,10 +1,10 @@
+import type { ClusterInfo } from '@/services/cluster';
+import { checkJsonStrUtils } from '@/utils/checkJsonUtils';
+import MonacoEditor from '@monaco-editor/react';
 import type { FormInstance } from 'antd';
 import { Form, Input } from 'antd';
-import type { ClusterInfo } from '@/services/cluster';
 import type { RefObject } from 'react';
 import React, { useEffect, useRef } from 'react';
-import MonacoEditor from '@monaco-editor/react';
-import { checkJsonStrUtils } from '@/utils/checkJsonUtils';
 import '../../styles/form.less';
 
 export interface ClusterFormProps {

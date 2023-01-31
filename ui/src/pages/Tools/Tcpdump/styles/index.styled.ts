@@ -1,5 +1,5 @@
-import styled from 'styled-components';
 import { Empty } from 'antd';
+import styled from 'styled-components';
 
 export const StyledTcpdumpContentEmpty = styled(Empty)`
   width: 100%;
