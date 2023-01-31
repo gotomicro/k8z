@@ -1,5 +1,5 @@
-import { Button, Divider, Modal, Space, Tooltip } from 'antd';
 import { DeleteOutlined, EditOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import { Button, Divider, Modal, Space, Tooltip } from 'antd';
 import React, { useCallback } from 'react';
 interface ClusterOptionsProps {
   name: string;

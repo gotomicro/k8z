@@ -1,5 +1,5 @@
-import { Result } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
+import { Result } from 'antd';
 import React from 'react';
 import './styles/index.less';
 

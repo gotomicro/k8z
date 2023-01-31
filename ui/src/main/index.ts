@@ -1,13 +1,13 @@
-import { app, BrowserWindow, protocol } from 'electron';
+import { app, BrowserWindow, ipcMain, protocol, shell } from 'electron';
 import * as path from 'path';
 import createProtocol from './createProtocol';
+import { Platforms } from './enums';
+import { initWindow } from './init/init';
 import { serverProcess } from './server';
+import { downloadFile } from './utils/downloadFileUtil';
 import { fixPathUtil } from './utils/fixPathUtil';
 import { initLog } from './utils/loggerUtil';
 import { initWindowMenu } from './utils/menuUtil';
-import { downloadFile } from './utils/downloadFileUtil';
-import { initWindow } from './init/init';
-import { Platforms } from './enums';
 
 initLog();
 fixPathUtil();
@@ -43,6 +43,9 @@ function createWindow() {
     createProtocol('k8z');
     mainWindow.loadURL('k8z://./index.html/').catch(console.error);
   }
+  ipcMain.on('openBrowser', async (evt, { url }) => {
+    shell.openExternal(url).catch(console.error);
+  });
   downloadFile(mainWindow).catch(console.error);
 }
 

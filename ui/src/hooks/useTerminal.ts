@@ -1,13 +1,13 @@
-import { useCallback, useRef } from 'react';
-import lodash from 'lodash';
 import type { OptionsPodInfo } from '@/services/pods';
+import lodash from 'lodash';
+import { useCallback, useRef } from 'react';
 import { Terminal } from 'xterm';
 import { FitAddon } from 'xterm-addon-fit';
 // @ts-ignore
 // AdventureTime,Dracula
-import { OneHalfLight } from 'xterm-theme';
-import { getWSHost } from '@/utils/common';
 import { DEFAULT_WAIT } from '@/configs/default';
+import { getWSHost } from '@/utils/common';
+import { OneHalfLight } from 'xterm-theme';
 
 interface TerminalProps {
   api: string;

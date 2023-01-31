@@ -1,11 +1,11 @@
-import React, { useCallback, useMemo, useRef } from 'react';
-import styles from '@/pages/Tools/PodProxy/styles/response.less';
-import MonacoEditor from '@monaco-editor/react';
+import type { DefaultResponseInfoProps } from '@/pages/Tools/PodProxy/components/ResponseInfo/index';
 import ResponseBodyOptions, {
   BodyRadios,
 } from '@/pages/Tools/PodProxy/components/ResponseInfo/ResponseBodyOptions';
 import { useResponseBodyOptions } from '@/pages/Tools/PodProxy/hooks/useResponseBodyOptions';
-import type { DefaultResponseInfoProps } from '@/pages/Tools/PodProxy/components/ResponseInfo/index';
+import styles from '@/pages/Tools/PodProxy/styles/response.less';
+import MonacoEditor from '@monaco-editor/react';
+import React, { useCallback, useMemo, useRef } from 'react';
 
 export type ResponseBodyProps = DefaultResponseInfoProps;
 

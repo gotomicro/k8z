@@ -1,7 +1,7 @@
 import type { BrowserWindow } from 'electron';
 import { app, dialog, ipcMain } from 'electron';
-import path from 'path';
 import { pathExistsSync } from 'fs-extra';
+import path from 'path';
 
 export const openFileDialog = async (mainWindow: BrowserWindow) => {
   const defaultPath = app.getPath('downloads');
@@ -17,14 +17,14 @@ export const openFileDialog = async (mainWindow: BrowserWindow) => {
 };
 
 export async function downloadFile(mainWindow: BrowserWindow) {
-  let selectPath = '';
-  ipcMain.on('download', async (evt, args) => {
+  let selectPath = app.getPath('downloads');
+  ipcMain.on('download', async (evt, { downloadUrl }) => {
     // 打开系统弹窗 选择文件下载位置]
     openFileDialog(mainWindow)
       .then((res) => {
         if (res) {
           selectPath = res;
-          mainWindow.webContents.downloadURL(args.downloadUrl);
+          mainWindow.webContents.downloadURL(downloadUrl);
         }
       })
       .catch(console.error);
@@ -43,11 +43,13 @@ export async function downloadFile(mainWindow: BrowserWindow) {
         ext,
         name: `${name}(${fileNum})`,
       });
-      savePath = `${selectPath}/${newFileName}`;
+      savePath = path.join(selectPath, newFileName);
     }
 
+    console.log('savePath: ', savePath);
+
     item.setSavePath(savePath);
-    app.badgeCount = 1;
+    app.badgeCount = app.badgeCount + 1;
     item.on('updated', (event, state) => {
       if (state === 'interrupted') {
         console.log('Download is interrupted but can be resumed');
@@ -55,12 +57,17 @@ export async function downloadFile(mainWindow: BrowserWindow) {
         if (item.isPaused()) {
           console.log('Download is paused');
         } else {
-          console.log(`Received bytes: ${item.getReceivedBytes()}`);
+          const progress = item.getReceivedBytes() / item.getTotalBytes();
+          mainWindow.setProgressBar(progress);
+          console.log(
+            `Received bytes: ${item.getReceivedBytes()},Total Bytes: ${item.getTotalBytes()}`,
+          );
         }
       }
     });
     item.once('done', (event, state) => {
-      app.badgeCount = 0;
+      app.badgeCount = app.badgeCount - 1;
+      mainWindow.setProgressBar(-1);
       if (state === 'completed') {
         console.log('Download successfully');
         dialog.showMessageBox(mainWindow, {

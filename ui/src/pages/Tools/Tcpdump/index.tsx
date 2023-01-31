@@ -1,11 +1,12 @@
-import React from 'react';
-import type { Pod } from '@/services/pods';
+import ContentCard from '@/components/ContentCard';
+import { useContainer } from '@/hooks/useContainer';
 import TcpdumpCard from '@/pages/Tools/Tcpdump/components/TcpdumpCard';
 import TcpdumpConfigCard from '@/pages/Tools/Tcpdump/components/TcpdumpConfigCard';
+import { useCheckWireshark } from '@/pages/Tools/Tcpdump/hooks/useCheckWireshark';
 import { useTcpdump } from '@/pages/Tools/Tcpdump/hooks/useTcpdump';
-import { useContainer } from '@/hooks/useContainer';
-import ContentCard from '@/components/ContentCard';
+import type { Pod } from '@/services/pods';
 import { k8zStorageKeys, localStorageManage } from '@/utils/storageUtil';
+import React from 'react';
 
 interface TcpdumpProps {
   currentPod: Pod;
@@ -24,6 +25,9 @@ const Tcpdump: React.FC<TcpdumpProps> = ({ currentPod }) => {
     handleStartTcpdump,
     handleStopTcpdump,
   } = useTcpdump({ currentPod: podInfo });
+
+  const { isElectron, caughtModes } = useCheckWireshark();
+
   return (
     <>
       <ContentCard title={`${localStorageManage(k8zStorageKeys.toolsName)}-Config`} height="250px">
@@ -32,6 +36,8 @@ const Tcpdump: React.FC<TcpdumpProps> = ({ currentPod }) => {
           isStartTcpdump={isStartTcpdump}
           tcpdumpMode={tcpdumpMode}
           form={tcpdumpFormRef}
+          isElectron={isElectron}
+          caughtModes={caughtModes}
           tcpdumpDownloadKey={tcpdumpDownloadKey}
           handleStartTcpdump={handleStartTcpdump}
           handleStopTcpdump={handleStopTcpdump}

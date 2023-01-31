@@ -1,5 +1,6 @@
-import { request } from 'umi';
+import type { DependenciesResponse } from '@/services/dependency';
 import type { WorkloadKinds } from '@/services/workload';
+import { request } from 'umi';
 
 export interface Profile {
   url: string;
@@ -81,8 +82,14 @@ export async function getProfiles(params: ProfilesParams) {
 }
 
 export async function runProfilesDiff(data: { baseUrl?: string; targetUrl?: string }) {
-  return request(`/api/v1/pprof/run-diff`, {
+  return request<RES.Res<string>>(`/api/v1/pprof/run-diff`, {
     method: 'POST',
     data,
+  });
+}
+
+export async function checkProfilingDependencies() {
+  return request<RES.Res<DependenciesResponse>>(`/api/v1/pprof/check-dependencies`, {
+    method: 'GET',
   });
 }

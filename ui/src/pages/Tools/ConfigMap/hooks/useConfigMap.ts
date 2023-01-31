@@ -1,4 +1,5 @@
-import { useCallback, useRef, useState } from 'react';
+import { INIT_MONACO_WAIT } from '@/configs/default';
+import { ALL_SUFFIX_ARR, DEFAULT_CONFIGMAP_TYPE, PrettyConfigmapTypes } from '@/enums/pretty';
 import type { ConfigMapFileInfo, ConfigMapInfo } from '@/services/configmap';
 import {
   deleteFile,
@@ -6,11 +7,10 @@ import {
   getFileContext,
   saveFileContext,
 } from '@/services/configmap';
+import { AnchorScrollKey, documentScrollUtil } from '@/utils/documentScrollUtil';
 import { message } from 'antd';
 import lodash from 'lodash';
-import { ALL_SUFFIX_ARR, DEFAULT_CONFIGMAP_TYPE, PrettyConfigmapTypes } from '@/enums/pretty';
-import { INIT_MONACO_WAIT } from '@/configs/default';
-import { AnchorScrollKey, documentScrollUtil } from '@/utils/documentScrollUtil';
+import { useCallback, useRef, useState } from 'react';
 
 interface ConfigMapProps {
   configmap: ConfigMapInfo;

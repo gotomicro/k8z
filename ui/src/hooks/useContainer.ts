@@ -1,6 +1,6 @@
 import type { Pod } from '@/services/pods';
-import { useState, useMemo, useEffect } from 'react';
 import lodash from 'lodash';
+import { useEffect, useMemo, useState } from 'react';
 
 export const MIN_CONTAINERS_LEN = 1;
 export const FIST_CONTAINER_INDEX = 0;

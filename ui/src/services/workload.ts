@@ -1,5 +1,5 @@
-import { request } from 'umi';
 import type { Pod } from '@/services/pods';
+import { request } from 'umi';
 
 export interface Workload {
   name: string;

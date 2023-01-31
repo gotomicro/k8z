@@ -1,15 +1,10 @@
-import type { Pod } from '@/services/pods';
-import React, { useCallback, useEffect, useState } from 'react';
-import type { ProxyResultParams } from '@/services/podProxy';
-import { sendPodProxy } from '@/services/podProxy';
-import { Form, message } from 'antd';
-import lodash from 'lodash';
 import ContentCard from '@/components/ContentCard';
+import Loading from '@/components/Loading';
 import ProxyRequest from '@/pages/Tools/PodProxy/components/ProxyRequest';
 import ProxyResponse from '@/pages/Tools/PodProxy/components/ProxyResponse';
-import Loading from '@/components/Loading';
-import { INIT_MONACO_WAIT } from '@/configs/default';
-import { AnchorScrollKey, documentScrollUtil } from '@/utils/documentScrollUtil';
+import { useFormOptions } from '@/pages/Tools/PodProxy/hooks/useFormOptions';
+import type { Pod } from '@/services/pods';
+import React, { useEffect } from 'react';
 
 export enum RequestProtocols {
   http = 'http://',
@@ -19,66 +14,9 @@ interface PodProxyProps {
   currentPod: Pod;
 }
 const PodProxy: React.FC<PodProxyProps> = ({ currentPod }) => {
-  const [sendResult, setSendResult] = useState<ProxyResultParams>();
-  const [loading, setLoading] = useState(false);
-  const [form] = Form.useForm();
-
-  const handleResetTab = useCallback(() => {
-    setSendResult(undefined);
-    form.resetFields();
-    if (currentPod) {
-      form.setFieldsValue({
-        clusterName: currentPod.cluster,
-        namespace: currentPod.namespace,
-        podName: currentPod.name,
-      });
-    }
-  }, [currentPod, form]);
-
-  const handleFinishForm = useCallback((fields: any) => {
-    const requestBody = lodash.pick(fields, ['info']).info;
-    const requestInfo = {
-      ...lodash.pick(fields, ['clusterName', 'namespace', 'podName', 'method']),
-      url: `${fields.urlBefore}${fields.url ?? ''}`,
-    };
-    const headers = JSON.stringify(
-      requestBody?.headers
-        ?.filter((item: any) => item.key)
-        .reduce((pre: any, cur: any) => {
-          pre[cur.key] = cur?.value ?? '';
-          return pre;
-        }, {}) ?? [],
-    );
-    const payload = requestBody?.body ?? '';
-    if (!requestInfo.url) {
-      message.warning({ content: '请填写相关的请求信息', key: 'request-warn' });
-      return;
-    }
-
-    setLoading(true);
-    sendPodProxy({ ...requestInfo, headers, payload })
-      .then((res) => {
-        if (res?.code !== 0) {
-          message.error({
-            content: res?.msg ?? '接口出现未知错误，请重新尝试',
-            key: 'testApi-error',
-          });
-          return;
-        }
-        setSendResult(res.data);
-        documentScrollUtil(AnchorScrollKey.Response);
-      })
-      .catch((e) => {
-        message.error({
-          content: `【未知错误】: ${JSON.stringify(e)}`,
-          key: 'testApi-request-error',
-        });
-        console.error(e);
-      })
-      .finally(() => {
-        setTimeout(() => setLoading(false), INIT_MONACO_WAIT);
-      });
-  }, []);
+  const { form, loading, sendResult, handleResetTab, handleFinishForm } = useFormOptions({
+    currentPod,
+  });
 
   useEffect(() => {
     handleResetTab();

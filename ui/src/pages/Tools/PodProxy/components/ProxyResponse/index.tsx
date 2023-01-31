@@ -1,14 +1,14 @@
-import React from 'react';
-import type { ProxyResultParams } from '@/services/podProxy';
-import ResponseType from '@/pages/Tools/PodProxy/components/ResponseType';
 import ResponseInfo from '@/pages/Tools/PodProxy/components/ResponseInfo';
-import { Empty } from 'antd';
-import lodash from 'lodash';
+import ResponseType from '@/pages/Tools/PodProxy/components/ResponseType';
+import { useResponseType } from '@/pages/Tools/PodProxy/hooks/useResponseType';
 import {
   StyledPodProxyEmptyResponse,
   StyledPodProxyResponse,
 } from '@/pages/Tools/PodProxy/styles/request.styled';
-import { useResponseType } from '@/pages/Tools/PodProxy/hooks/useResponseType';
+import type { ProxyResultParams } from '@/services/podProxy';
+import { Empty } from 'antd';
+import lodash from 'lodash';
+import React from 'react';
 
 interface ProxyResponseProps {
   result?: ProxyResultParams;

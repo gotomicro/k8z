@@ -1,6 +1,6 @@
 import { protocol } from 'electron';
-import { URL } from 'url';
 import * as path from 'path';
+import { URL } from 'url';
 
 export default (scheme: string) => {
   protocol.registerFileProtocol(scheme, (request, respond) => {

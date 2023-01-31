@@ -1,10 +1,9 @@
-import React from 'react';
-import { useMemo } from 'react';
-import type { ProxyResultParams } from '@/services/podProxy';
-import { ResponseTypes } from '@/pages/Tools/PodProxy/components/ResponseType';
 import ResponseBody from '@/pages/Tools/PodProxy/components/ResponseInfo/ResponseBody';
 import ResponseHeaders from '@/pages/Tools/PodProxy/components/ResponseInfo/ResponseHeaders';
+import { ResponseTypes } from '@/pages/Tools/PodProxy/components/ResponseType';
 import { StyledResponseInfo } from '@/pages/Tools/PodProxy/styles/response.styled';
+import type { ProxyResultParams } from '@/services/podProxy';
+import React, { useMemo } from 'react';
 
 export interface DefaultResponseInfoProps {
   value?: Pick<ProxyResultParams, 'body' | 'headers'>;

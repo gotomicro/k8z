@@ -1,12 +1,12 @@
-import React, { useMemo } from 'react';
-import { TcpdumpMode } from '@/services/tcpdump';
-import { Empty } from 'antd';
-import MonacoEditor from '@monaco-editor/react';
+import Loading from '@/components/Loading';
 import {
   StyledTcpdumpContentEmpty,
   StyledTcpdumpTerminal,
 } from '@/pages/Tools/Tcpdump/styles/index.styled';
-import Loading from '@/components/Loading';
+import { TcpdumpMode } from '@/services/tcpdump';
+import MonacoEditor from '@monaco-editor/react';
+import { Empty } from 'antd';
+import React, { useMemo } from 'react';
 
 interface TcpdumpCardProps {
   tcpdumpMode?: TcpdumpMode;

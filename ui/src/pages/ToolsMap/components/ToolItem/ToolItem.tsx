@@ -1,13 +1,11 @@
-import React from 'react';
-import type { Tool } from '@/pages/ToolsMap/configs/configs';
+import type { Tool, ToolNames } from '@/pages/ToolsMap/configs/configs';
 import {
   StyledToolItem,
   StyledToolItemImg,
   StyledToolItemTitle,
   StyledToolItemTitleContext,
 } from '@/pages/ToolsMap/styles/item.styled';
-import { useCallback } from 'react';
-import type { ToolNames } from '@/pages/ToolsMap/configs/configs';
+import React, { useCallback } from 'react';
 
 export interface ToolItemProps {
   tool: Tool;

@@ -1,4 +1,6 @@
+import type { DependenciesResponse } from '@/services/dependency';
 import { getWSHost } from '@/utils/common';
+import { request } from 'umi';
 
 export enum TcpdumpMode {
   stdout = 'stdout',
@@ -35,3 +37,9 @@ export const getStartTcpdumpWsUrl = ({
 };
 
 export const DOWNLOAD_CAUGHT_PATH = '/api/v1/tcpdump/download?taskId=';
+
+export function checkTcpdumpWireshark() {
+  return request<RES.Res<DependenciesResponse>>(`/api/v1/tcpdump/check-dependencies`, {
+    method: 'GET',
+  });
+}

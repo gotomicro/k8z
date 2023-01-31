@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { Profile } from '@/services/profiling';
-import { unixTimeFormat } from '@/utils/timeUtils';
 import { AnchorScrollKey, documentScrollUtil } from '@/utils/documentScrollUtil';
+import { unixTimeFormat } from '@/utils/timeUtils';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 export const useDiffProfile = ({
   showHistory,
@@ -54,10 +54,12 @@ export const useDiffProfile = ({
   }, [currentBaseUrl?.ctime, profileHistoryList]);
 
   useEffect(() => {
-    setOpenDiffModal(false);
-    setBaseUrl(undefined);
-    setTargetUrl(undefined);
-    setCurrentBaseUrl(undefined);
+    return () => {
+      setOpenDiffModal(false);
+      setBaseUrl(undefined);
+      setTargetUrl(undefined);
+      setCurrentBaseUrl(undefined);
+    };
   }, [showHistory]);
 
   return {

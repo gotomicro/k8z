@@ -1,5 +1,5 @@
-import styled from 'styled-components';
 import MonacoEditor from '@monaco-editor/react';
+import styled from 'styled-components';
 export const StyledConfigMapContent = styled.div`
   flex: 1;
   display: flex;

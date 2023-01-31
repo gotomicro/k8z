@@ -1,7 +1,7 @@
 import ContentCard from '@/components/ContentCard';
 import { Select } from 'antd';
-import React from 'react';
 import type { DefaultOptionType } from 'rc-select/lib/Select';
+import React from 'react';
 
 interface ContainerSelectCardProps {
   value?: string;

@@ -1,25 +1,26 @@
-import type { FormInstance } from 'antd';
-import { Button, Form, Input, Radio, Select, Space } from 'antd';
-import type { StartTcpdumpWsUrlParams } from '@/services/tcpdump';
-import { TcpdumpMode, CaughtModeMapping, DOWNLOAD_CAUGHT_PATH } from '@/services/tcpdump';
-import type { RefObject } from 'react';
-import React, { useCallback, useEffect } from 'react';
-import { useModel } from '@umijs/max';
+import { FIST_CONTAINER_INDEX, MIN_CONTAINERS_LEN } from '@/hooks/useContainer';
 import {
   StyledCaughtFormLabel,
   StyledCaughtFromOptions,
   StyledCaughtMode,
 } from '@/pages/Tools/Tcpdump/styles/config.styled';
-import { CloudDownloadOutlined, PauseOutlined, PlayCircleOutlined } from '@ant-design/icons';
-import { FIST_CONTAINER_INDEX, MIN_CONTAINERS_LEN } from '@/hooks/useContainer';
-import type { DefaultOptionType } from 'rc-select/lib/Select';
+import type { StartTcpdumpWsUrlParams } from '@/services/tcpdump';
+import { DOWNLOAD_CAUGHT_PATH, TcpdumpMode } from '@/services/tcpdump';
 import { RequestBaseUrl } from '@/utils/electronRenderUtil';
+import { CloudDownloadOutlined, PauseOutlined, PlayCircleOutlined } from '@ant-design/icons';
+import type { FormInstance } from 'antd';
+import { Button, Form, Input, Radio, Select, Space } from 'antd';
+import type { DefaultOptionType } from 'rc-select/lib/Select';
+import type { ReactNode, RefObject } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 interface TcpdumpFormProps {
   containers: DefaultOptionType[];
   isStartTcpdump: boolean;
   tcpdumpMode?: TcpdumpMode;
   tcpdumpDownloadKey: string;
+  isElectron: boolean;
+  caughtModes: ReactNode[];
   form: RefObject<
     FormInstance<
       Pick<StartTcpdumpWsUrlParams, 'interfaceConfig' | 'filter' | 'mode' | 'containerName'>
@@ -35,15 +36,13 @@ const TcpdumpForm: React.FC<TcpdumpFormProps> = ({
   form,
   isStartTcpdump,
   tcpdumpMode,
+  isElectron,
   tcpdumpDownloadKey,
   handleStopTcpdump,
   handleStartTcpdump,
+  caughtModes,
   containers,
 }) => {
-  const { initialState } = useModel('@@initialState');
-
-  const isElectron = initialState?.isElectron;
-
   const handleClickDownload = useCallback(() => {
     const downloadPath = `${RequestBaseUrl}${DOWNLOAD_CAUGHT_PATH}${tcpdumpDownloadKey}`;
     if (isElectron) {
@@ -52,6 +51,11 @@ const TcpdumpForm: React.FC<TcpdumpFormProps> = ({
     }
     window.open(downloadPath, '_blank');
   }, [isElectron, tcpdumpDownloadKey]);
+
+  const handleGetPopupContainer = useCallback(
+    () => document.getElementById('tcpdumpForm') || document.body,
+    [],
+  );
 
   useEffect(() => {
     // 默认设置第一个 container
@@ -62,13 +66,19 @@ const TcpdumpForm: React.FC<TcpdumpFormProps> = ({
 
   return (
     <div>
-      <Form ref={form} onFinish={handleStartTcpdump}>
+      <Form ref={form} onFinish={handleStartTcpdump} id="tcpdumpForm">
         <Form.Item
           name="containerName"
           label={'Container'}
           rules={[{ required: true, message: '请选择 Container' }]}
         >
-          <Select allowClear showSearch options={containers} placeholder="请选择 Container" />
+          <Select
+            allowClear
+            showSearch
+            options={containers}
+            placeholder="请选择 Container"
+            getPopupContainer={handleGetPopupContainer}
+          />
         </Form.Item>
         <Form.Item
           name="interfaceConfig"
@@ -85,22 +95,7 @@ const TcpdumpForm: React.FC<TcpdumpFormProps> = ({
             label="抓包模式"
             rules={[{ required: true, message: '请选择需要的抓包模式' }]}
           >
-            <Radio.Group>
-              {Object.keys(TcpdumpMode)
-                .filter((key) => {
-                  if (TcpdumpMode.wireshark !== TcpdumpMode[key]) {
-                    return TcpdumpMode[key];
-                  }
-                  if (isElectron && TcpdumpMode.wireshark === TcpdumpMode[key]) {
-                    return TcpdumpMode.wireshark;
-                  }
-                })
-                .map((mode) => (
-                  <Radio key={mode} value={mode}>
-                    {CaughtModeMapping[mode]}
-                  </Radio>
-                ))}
-            </Radio.Group>
+            <Radio.Group>{caughtModes}</Radio.Group>
           </StyledCaughtMode>
           <Form.Item noStyle>
             <Space align="start">

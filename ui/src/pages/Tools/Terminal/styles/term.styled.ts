@@ -1,5 +1,5 @@
-import styled from 'styled-components';
 import { Button } from 'antd';
+import styled from 'styled-components';
 
 export const StyledTerm = styled.div<{ isFullscreen: boolean }>`
   box-sizing: border-box;

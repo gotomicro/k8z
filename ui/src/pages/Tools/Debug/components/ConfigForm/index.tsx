@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
-import { Button, Form, Select } from 'antd';
-import type { FormInstance } from 'antd';
+import { FIST_CONTAINER_INDEX, MIN_CONTAINERS_LEN } from '@/hooks/useContainer';
 import {
   StyledConfigForm,
   StyledConfigFormButtonSpace,
 } from '@/pages/Tools/Debug/styles/config.styled';
-import { FIST_CONTAINER_INDEX, MIN_CONTAINERS_LEN } from '@/hooks/useContainer';
-import { StopOutlined, PlayCircleOutlined } from '@ant-design/icons';
+import { PlayCircleOutlined, StopOutlined } from '@ant-design/icons';
+import type { FormInstance } from 'antd';
+import { Button, Form, Select } from 'antd';
 import type { DefaultOptionType } from 'rc-select/lib/Select';
+import React, { useCallback, useEffect } from 'react';
 
 export interface FormParams {
   container: string;
@@ -28,6 +28,11 @@ const ConfigForm: React.FC<ConfigFormProps> = ({
   handleFinish,
   handleStopClient,
 }) => {
+  const handleGetPopupContainer = useCallback(
+    () => document.getElementById('ContainerForm') || document.body,
+    [],
+  );
+
   useEffect(() => {
     // 默认设置第一个 container
     if (form && containers.length >= MIN_CONTAINERS_LEN) {
@@ -37,13 +42,19 @@ const ConfigForm: React.FC<ConfigFormProps> = ({
 
   return (
     <StyledConfigForm>
-      <Form form={form} onFinish={handleFinish}>
+      <Form form={form} onFinish={handleFinish} id={'ContainerForm'}>
         <Form.Item
           name="container"
           label={'Container'}
           rules={[{ required: true, message: '请选择 Container' }]}
         >
-          <Select allowClear showSearch options={containers} placeholder="请选择 Container" />
+          <Select
+            allowClear
+            showSearch
+            options={containers}
+            placeholder="请选择 Container"
+            getPopupContainer={handleGetPopupContainer}
+          />
         </Form.Item>
         <Form.Item noStyle>
           <StyledConfigFormButtonSpace>

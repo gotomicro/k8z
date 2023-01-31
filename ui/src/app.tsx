@@ -1,12 +1,12 @@
 import Footer from '@/components/Footer';
+import { handleElectronMessage, RequestBaseUrl } from '@/utils/electronRenderUtil';
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
+import { loader } from '@monaco-editor/react';
 import type { RunTimeLayoutConfig } from '@umijs/max';
 import { history } from '@umijs/max';
-import defaultSettings from '../config/defaultSettings';
-import type { RequestConfig } from 'umi';
-import { handleElectronMessage, RequestBaseUrl } from '@/utils/electronRenderUtil';
 import { notification } from 'antd';
-import { loader } from '@monaco-editor/react';
+import type { RequestConfig } from 'umi';
+import defaultSettings from '../config/defaultSettings';
 
 // 初始化 monaco
 loader

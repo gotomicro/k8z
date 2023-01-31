@@ -1,7 +1,7 @@
-import { Table } from 'antd';
-import React, { useMemo } from 'react';
-import type { ColumnsType } from 'antd/es/table';
 import type { DefaultResponseInfoProps } from '@/pages/Tools/PodProxy/components/ResponseInfo/index';
+import { Table } from 'antd';
+import type { ColumnsType } from 'antd/es/table';
+import React, { useMemo } from 'react';
 
 export type ResponseHeadersProps = DefaultResponseInfoProps;
 

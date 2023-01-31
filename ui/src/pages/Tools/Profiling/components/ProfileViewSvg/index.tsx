@@ -1,4 +1,11 @@
-import { Button, message, Radio, Space, Tabs } from 'antd';
+import Loading from '@/components/Loading';
+import { DEFAULT_WAIT } from '@/configs/default';
+import {
+  StyledIframe,
+  StyledProfileViewSvg,
+  StyledTools,
+} from '@/pages/Tools/Profiling/styles/profileView.styled';
+import { getDownloadProfilePath } from '@/pages/Tools/Profiling/utils/downloadProfileUtil';
 import {
   GET_PROFILE_DIFF_SVG_URL,
   GET_PROFILE_SVG_URL,
@@ -8,19 +15,12 @@ import {
   SvgTypeMapping,
   SvgTypes,
 } from '@/services/profiling';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { FullscreenExitOutlined, FullscreenOutlined, LinkOutlined } from '@ant-design/icons';
-import {
-  StyledIframe,
-  StyledProfileViewSvg,
-  StyledTools,
-} from '@/pages/Tools/Profiling/styles/profileView.styled';
-import { getDownloadProfilePath } from '@/pages/Tools/Profiling/utils/downloadProfileUtile';
-import { useThrottleFn } from 'ahooks';
-import { DEFAULT_WAIT } from '@/configs/default';
-import Loading from '@/components/Loading';
-import { useModel } from '@umijs/max';
 import { RequestBaseUrl } from '@/utils/electronRenderUtil';
+import { FullscreenExitOutlined, FullscreenOutlined, LinkOutlined } from '@ant-design/icons';
+import { useModel } from '@umijs/max';
+import { useThrottleFn } from 'ahooks';
+import { Button, message, Radio, Space, Tabs } from 'antd';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 export interface ProfileViewProps {
   url?: string;
@@ -43,11 +43,11 @@ const ProfileViewSvg: React.FC<ProfileViewProps> = ({
   const { initialState } = useModel('@@initialState') || {};
   const isElectron = initialState?.isElectron ?? false;
 
-  const handleChangeSvgType = useCallback((e) => {
+  const handleChangeSvgType = useCallback((e: any) => {
     setSvgType(e.target.value);
   }, []);
 
-  const handleChangeGoType = useCallback((type) => {
+  const handleChangeGoType = useCallback((type: any) => {
     setGoType(type);
   }, []);
 
@@ -107,7 +107,7 @@ const ProfileViewSvg: React.FC<ProfileViewProps> = ({
   }, [baseUrl, targetUrl]);
 
   const handleKeyDown = useCallback(
-    (e) => {
+    (e: any) => {
       // esc 键
       if (isFull && e.keyCode === 27) {
         setIsFull(false);

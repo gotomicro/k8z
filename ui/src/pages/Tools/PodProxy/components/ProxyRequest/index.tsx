@@ -1,13 +1,13 @@
-import React, { useMemo } from 'react';
-import type { FormInstance } from 'antd';
-import { Button, Form, Input, Select } from 'antd';
-import RequestType, { RequestTypes } from '@/pages/Tools/PodProxy/components/RequestType';
+import { RequestProtocols } from '@/pages/Tools/PodProxy';
 import ProxyRequestInfo from '@/pages/Tools/PodProxy/components/ProxyRequestInfo';
+import RequestType, { RequestTypes } from '@/pages/Tools/PodProxy/components/RequestType';
 import {
   StyledPodProxyFormInput,
   StyledRequestPathInput,
 } from '@/pages/Tools/PodProxy/styles/request.styled';
-import { RequestProtocols } from '@/pages/Tools/PodProxy';
+import type { FormInstance } from 'antd';
+import { Button, Form, Input, Select } from 'antd';
+import React, { useMemo } from 'react';
 
 interface ProxyRequestProps {
   podName: string;

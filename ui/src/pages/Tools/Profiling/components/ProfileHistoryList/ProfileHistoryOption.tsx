@@ -1,11 +1,11 @@
-import React, { useCallback } from 'react';
-import { Button, Divider, Space, Tooltip } from 'antd';
-import { CloudDownloadOutlined, DiffOutlined, FileSearchOutlined } from '@ant-design/icons';
+import { getDownloadProfilePath } from '@/pages/Tools/Profiling/utils/downloadProfileUtil';
 import type { Profile } from '@/services/profiling';
-import lodash from 'lodash';
 import { AnchorScrollKey, documentScrollUtil } from '@/utils/documentScrollUtil';
-import { getDownloadProfilePath } from '@/pages/Tools/Profiling/utils/downloadProfileUtile';
+import { CloudDownloadOutlined, DiffOutlined, FileSearchOutlined } from '@ant-design/icons';
 import { useModel } from '@umijs/max';
+import { Button, Divider, Space, Tooltip } from 'antd';
+import lodash from 'lodash';
+import React, { useCallback } from 'react';
 
 interface ProfileHistoryOptionProps {
   profile: Profile;

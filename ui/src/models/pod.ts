@@ -1,7 +1,7 @@
+import type { ConfigMapInfo } from '@/services/configmap';
 import type { Pod } from '@/services/pods';
 import { k8zStorageKeys, localStorageManage, removeLocalStorageManage } from '@/utils/storageUtil';
 import { useCallback, useState } from 'react';
-import type { ConfigMapInfo } from '@/services/configmap';
 
 export default () => {
   const [cluster, setCluster] = useState<string>();

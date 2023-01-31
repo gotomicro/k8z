@@ -1,9 +1,8 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import ClusterForm from '@/pages/ClustersManage/components/ClusterForm';
+import type { ClusterInfo, ClusterMethod } from '@/services/cluster';
 import type { FormInstance } from 'antd';
 import { message, Modal, Spin } from 'antd';
-import type { ClusterInfo } from '@/services/cluster';
-import ClusterForm from '@/pages/ClustersManage/components/ClusterForm';
-import type { ClusterMethod } from '@/services/cluster';
+import React, { useCallback, useEffect, useRef } from 'react';
 
 export interface UpdateClusterModalProps {
   open: boolean;

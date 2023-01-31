@@ -1,5 +1,5 @@
-import { request } from 'umi';
 import type { WorkloadKinds } from '@/services/workload';
+import { request } from 'umi';
 
 export interface Pod {
   cluster: string;

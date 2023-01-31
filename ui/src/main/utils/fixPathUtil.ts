@@ -1,7 +1,7 @@
-import { userInfo } from 'os';
 import { execSync } from 'child_process';
-import stripAnsi from 'strip-ansi';
 import lodash from 'lodash';
+import { userInfo } from 'os';
+import stripAnsi from 'strip-ansi';
 import { Platforms } from '../enums';
 
 export const ENV_PATH_KEY = 'PATH';

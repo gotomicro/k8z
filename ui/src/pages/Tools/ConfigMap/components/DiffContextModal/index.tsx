@@ -1,7 +1,7 @@
-import React from 'react';
-import { Modal } from 'antd';
-import { DiffEditor } from '@monaco-editor/react';
 import { DEFAULT_CONFIGMAP_TYPE } from '@/enums/pretty';
+import { DiffEditor } from '@monaco-editor/react';
+import { Modal } from 'antd';
+import React from 'react';
 
 interface DiffContextModalProps {
   open: boolean;

@@ -15,6 +15,11 @@ const api: any = {
   getMessage: (callback: (event: any, message: any) => void) => {
     ipcRenderer.on('message', callback);
   },
+  openInBrowser: (url: string) => {
+    ipcRenderer.send('openBrowser', {
+      url,
+    });
+  },
 };
 
 contextBridge.exposeInMainWorld(apiKey, api);
