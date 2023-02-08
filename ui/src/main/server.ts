@@ -2,12 +2,12 @@ import type { ChildProcess } from 'child_process';
 import { exec } from 'child_process';
 import { app, dialog } from 'electron';
 import fs from 'fs-extra';
+import { toNumber } from 'lodash';
 import * as net from 'net';
 import path from 'path';
 import portfinder from 'portfinder';
 import { Platforms } from './enums';
 import { getLogPath } from './utils/loggerUtil';
-import { toNumber } from 'lodash';
 
 export let serverProcess: ChildProcess;
 export let port: number;
