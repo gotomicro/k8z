@@ -31,6 +31,10 @@ export function initWindowMenu(mainWindow: BrowserWindow) {
         ]
       : []),
     {
+      label: '编辑',
+      role: 'editMenu',
+    },
+    {
       label: '集群',
       submenu: [
         {
@@ -78,7 +82,7 @@ export function initWindowMenu(mainWindow: BrowserWindow) {
         {
           label: '更多帮助',
           click: async () => {
-            await shell.openExternal('https://electronjs.org');
+            await shell.openExternal('https://github.com/gotomicro/k8z/issues');
           },
         },
       ],
