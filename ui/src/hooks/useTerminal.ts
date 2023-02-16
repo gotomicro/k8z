@@ -3,10 +3,10 @@ import lodash from 'lodash';
 import { useCallback, useRef } from 'react';
 import { Terminal } from 'xterm';
 import { FitAddon } from 'xterm-addon-fit';
-// @ts-ignore
 // AdventureTime,Dracula
 import { DEFAULT_WAIT } from '@/configs/default';
 import { getWSHost } from '@/utils/common';
+// @ts-ignore
 import { OneHalfLight } from 'xterm-theme';
 
 interface TerminalProps {
@@ -83,7 +83,7 @@ export const useTerminal = ({ api, handleStopLoading }: TerminalProps) => {
   }, [handleStopLoading]);
 
   const handleSocketMessage = useCallback(
-    (ev) => {
+    (ev: any) => {
       try {
         const data = JSON.parse(ev.data);
         if (data.type === 'stdout' && data?.data !== 'pong' && termRef.current) {
@@ -101,7 +101,7 @@ export const useTerminal = ({ api, handleStopLoading }: TerminalProps) => {
   );
 
   const handleSocketError = useCallback(
-    (e) => {
+    (e: any) => {
       console.log('socket-error: ', e);
       termRef.current.write('error: 连接终端失败');
       handleStopLoading?.();
